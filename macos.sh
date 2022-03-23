@@ -11,8 +11,8 @@ git checkout v$VERSION
 
 echo "=====[Patching Node.js]====="
 
-git apply --cached $GITHUB_WORKSPACE/nodejs-build/nodemod.patch
-git apply --cached $GITHUB_WORKSPACE/nodejs-build/lib_uv_add_on_watcher_queue_updated.patch
+git apply --cached $GITHUB_WORKSPACE/nodemod.patch
+git apply --cached $GITHUB_WORKSPACE/lib_uv_add_on_watcher_queue_updated.patch
 git checkout -- .
 
 echo "=====[Building Node.js]====="
