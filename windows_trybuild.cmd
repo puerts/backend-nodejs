@@ -9,9 +9,9 @@ git checkout v%VERSION%
 
 echo =====[ Patching Node.js ]=====
 
-node %GITHUB_WORKSPACE%\v8-build\CRLF2LF.js %GITHUB_WORKSPACE%\nodemod.patch
+node %GITHUB_WORKSPACE%\CRLF2LF.js %GITHUB_WORKSPACE%\nodemod.patch
 call git apply --cached --reject %GITHUB_WORKSPACE%\nodemod.patch
-node %GITHUB_WORKSPACE%\v8-build\CRLF2LF.js %GITHUB_WORKSPACE%\lib_uv_add_on_watcher_queue_updated.patch
+node %GITHUB_WORKSPACE%\CRLF2LF.js %GITHUB_WORKSPACE%\lib_uv_add_on_watcher_queue_updated.patch
 call git apply --cached --reject %GITHUB_WORKSPACE%\lib_uv_add_on_watcher_queue_updated.patch
 call git checkout -- .
 
