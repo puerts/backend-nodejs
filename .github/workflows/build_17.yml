@@ -109,7 +109,7 @@ jobs:
           
       - name: Create Release Asset
         run: |
-          cd nodejs_bin/ && mv -r nodejs nodejs_17 && tar cvfz ../nodejs_bin_${{env.VERSION}}.tgz * && cd -
+          cd nodejs_bin/ && mv nodejs nodejs_17 && tar cvfz ../nodejs_bin_${{env.VERSION}}.tgz * && cd -
           
       - name: Create Release
         id: create_release
