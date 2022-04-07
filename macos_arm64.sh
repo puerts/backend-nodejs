@@ -17,7 +17,7 @@ git checkout -- .
 
 echo "=====[Building Node.js]====="
 
-./configure --shared --no-browser-globals
+CC_host="clang" CXX_host="clang++" CC_target="clang -arch arm64" CXX_target="clang++ -arch arm64" CC="clang -arch arm64" CXX="clang++ -arch arm64" ./configure --no-browser-globals --shared --cross-compiling --dest-cpu=arm64
 make -j8
 
 mkdir -p ../puerts-node/nodejs/include
@@ -29,5 +29,5 @@ cp src/node_version.h ../puerts-node/nodejs/include
 cp -r deps/uv/include ../puerts-node/nodejs/deps/uv
 cp -r deps/v8/include ../puerts-node/nodejs/deps/v8
 
-mkdir -p ../puerts-node/nodejs/lib/macOS/
-cp out/Release/libnode.83.dylib ../puerts-node/nodejs/lib/macOS/
+mkdir -p ../puerts-node/nodejs/lib/macOS_arm64/
+cp out/Release/libnode.*.dylib ../puerts-node/nodejs/lib/macOS_arm64/

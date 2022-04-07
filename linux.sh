@@ -3,7 +3,7 @@
 VERSION=$1
 
 cd ~
-git clone -b v14.x https://github.com/nodejs/node.git
+git clone https://github.com/nodejs/node.git
 
 cd node
 git fetch origin v$VERSION

@@ -1,4 +1,4 @@
-name: build nodejs (deprecated)
+name: build nodejs v17
 
 on: 
   push:
@@ -9,7 +9,7 @@ on:
         required: true
 
 env:
-  VERSION: 14.16.1
+  VERSION: 17.8.0
 
 jobs:
   build_windows:
