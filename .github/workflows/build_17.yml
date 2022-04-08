@@ -31,7 +31,7 @@ jobs:
     - name: Rename
       shell: bash
       run: |
-        mv ~/puerts-node/nodejs ~/puerts-node/nodejs_17
+        mv puerts-node/nodejs puerts-node/nodejs_17
     - uses: actions/upload-artifact@v2
       with:
         name: nodejs_bin
@@ -56,7 +56,7 @@ jobs:
     - name: Rename
       shell: bash
       run: |
-        mv ~/puerts-node/nodejs ~/puerts-node/nodejs_17
+        mv puerts-node/nodejs puerts-node/nodejs_17
     - uses: actions/upload-artifact@v2
       with:
         name: nodejs_bin
