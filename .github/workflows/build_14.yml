@@ -1,7 +1,6 @@
 name: build nodejs v14
 
 on: 
-  push:
   workflow_dispatch:
     inputs:
       tag_date:

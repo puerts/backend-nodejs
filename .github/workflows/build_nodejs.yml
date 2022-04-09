@@ -1,7 +1,6 @@
 name: build nodejs (deprecated)
 
 on: 
-  push:
   workflow_dispatch:
     inputs:
       tag_date:
