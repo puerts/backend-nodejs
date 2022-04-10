@@ -3,7 +3,7 @@
 VERSION=$1
 
 cd ~
-git clone -b v14.x https://github.com/nodejs/node.git
+git clone https://github.com/nodejs/node.git
 
 cd node
 git fetch origin v$VERSION
@@ -30,4 +30,4 @@ cp -r deps/uv/include ../puerts-node/nodejs/deps/uv
 cp -r deps/v8/include ../puerts-node/nodejs/deps/v8
 
 mkdir -p ../puerts-node/nodejs/lib/macOS/
-cp out/Release/libnode.83.dylib ../puerts-node/nodejs/lib/macOS/
+cp out/Release/libnode.*.dylib ../puerts-node/nodejs/lib/macOS/
