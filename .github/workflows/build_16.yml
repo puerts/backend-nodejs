@@ -1,4 +1,4 @@
-name: build nodejs v17 (preview)
+name: build nodejs v16 (preview)
 
 on: 
   workflow_dispatch:
@@ -8,7 +8,7 @@ on:
         required: true
 
 env:
-  VERSION: 17.8.0
+  VERSION: 16.15.1
 
 jobs:
   build_windows:
