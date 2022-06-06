@@ -1,4 +1,4 @@
-name: build nodejs v17 (preview)
+name: build nodejs v16 (preview)
 
 on: 
   workflow_dispatch:
@@ -8,7 +8,7 @@ on:
         required: true
 
 env:
-  VERSION: 17.8.0
+  VERSION: 16.15.1
 
 jobs:
   build_windows:
@@ -30,7 +30,7 @@ jobs:
     - name: Rename
       shell: bash
       run: |
-        mv puerts-node/nodejs puerts-node/nodejs_17
+        mv puerts-node/nodejs puerts-node/nodejs_16
     - uses: actions/upload-artifact@v2
       with:
         name: nodejs_bin
@@ -55,7 +55,7 @@ jobs:
     - name: Rename
       shell: bash
       run: |
-        mv puerts-node/nodejs puerts-node/nodejs_17
+        mv puerts-node/nodejs puerts-node/nodejs_16
     - uses: actions/upload-artifact@v2
       with:
         name: nodejs_bin
@@ -74,7 +74,7 @@ jobs:
         sh ./macos.sh ${{env.VERSION}}
     - name: Rename
       run: |
-        mv ~/puerts-node/nodejs ~/puerts-node/nodejs_17
+        mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
     - uses: actions/upload-artifact@v2
       with:
         name: nodejs_bin
@@ -91,7 +91,7 @@ jobs:
         sh ./macos_arm64.sh ${{env.VERSION}}
     - name: Rename
       run: |
-        mv ~/puerts-node/nodejs ~/puerts-node/nodejs_17
+        mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
     - uses: actions/upload-artifact@v2
       with:
         name: nodejs_bin
@@ -108,7 +108,7 @@ jobs:
         sh ./linux.sh ${{env.VERSION}}
     - name: Rename
       run: |
-        mv ~/puerts-node/nodejs ~/puerts-node/nodejs_17
+        mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
     - uses: actions/upload-artifact@v2
       with:
         name: nodejs_bin
@@ -125,7 +125,7 @@ jobs:
           
       - name: Create Release Asset
         run: |
-          cd nodejs_bin/ && tar cvfz ../nodejs_bin_${{env.VERSION}}.tgz nodejs_17 && cd -
+          cd nodejs_bin/ && tar cvfz ../nodejs_bin_${{env.VERSION}}.tgz nodejs_16 && cd -
           
       - name: Create Release
         id: create_release
