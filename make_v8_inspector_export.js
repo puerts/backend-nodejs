@@ -7,6 +7,7 @@ let v8_inspector_h_insert_pos = v8_inspector_h_context.lastIndexOf('namespace v8
 
 let v8_inspector_h_insert_code = `
 
+#ifndef NODE_EXTERN
 #ifdef _WIN32
 # ifndef BUILDING_NODE_EXTENSION
 #  define NODE_EXTERN __declspec(dllexport)
@@ -15,6 +16,7 @@ let v8_inspector_h_insert_code = `
 # endif
 #else
 # define NODE_EXTERN __attribute__((visibility("default")))
+#endif
 #endif
 `;
 
