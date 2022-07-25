@@ -20,8 +20,5 @@ copy /y %GITHUB_WORKSPACE%\zlib.def deps\zlib\win32\zlib.def
 echo =====[ add ArrayBuffer_New_Without_Stl ]=====
 node %~dp0\add_arraybuffer_new_without_stl.js deps/v8
 
-echo =====[ make_v8_inspector_export.js ]=====
-node %~dp0\make_v8_inspector_export.js
-
 echo =====[ Building Node.js ]=====
 .\vcbuild.bat dll openssl-no-asm
