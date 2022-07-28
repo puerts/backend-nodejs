@@ -38,7 +38,7 @@ node $GITHUB_WORKSPACE/make_v8_inspector_export.js
 echo "=====[Building Node.js]====="
 
 sed -i 's/--cross-compiling/--cross-compiling --shared --no-browser-globals/g' android-configure
-sh android-configure ~/android-ndk-r21b $ARCH 23
+./android-configure ~/android-ndk-r21b arm64 23
 make -j8
 
 mkdir -p ../puerts-node/nodejs/lib/Android/$OUTPUT/
