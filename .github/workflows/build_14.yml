@@ -105,6 +105,9 @@ jobs:
   build_android_armv7:
     runs-on: ubuntu-latest
     steps:
+      - name: Install gcc-multilib
+        run: |
+          sudo apt-get install gcc-multilib
       - uses: actions/checkout@v2
       - name: Install NDK
         run: |
