@@ -24,19 +24,10 @@ case $ARCH in
 esac
 
 cd ~
-git clone https://github.com/nodejs/node.git
+wget https://nodejs.org/download/release/v14.16.1/node-v14.16.1.tar.gz
+tar xvfz node-v14.16.1.tar.gz
 
-cd node
-git fetch origin v$VERSION
-git checkout v$VERSION
-
-echo "=====[Patching Node.js]====="
-
-node $GITHUB_WORKSPACE/CRLF2LF.js $GITHUB_WORKSPACE/nodemod.patch
-git apply --cached $GITHUB_WORKSPACE/nodemod.patch
-node $GITHUB_WORKSPACE/CRLF2LF.js $GITHUB_WORKSPACE/lib_uv_add_on_watcher_queue_updated.patch
-git apply --cached $GITHUB_WORKSPACE/lib_uv_add_on_watcher_queue_updated.patch
-git checkout -- .
+cd node-v14.16.1
 
 echo "=====[ add ArrayBuffer_New_Without_Stl ]====="
 node $GITHUB_WORKSPACE/add_arraybuffer_new_without_stl.js deps/v8
@@ -46,7 +37,7 @@ node $GITHUB_WORKSPACE/make_v8_inspector_export.js
 
 echo "=====[Building Node.js]====="
 
-cp $GITHUB_WORKSPACE/android-configure ./
+sed -i 's/--cross-compiling/--cross-compiling --shared --no-browser-globals/g' android-configure
 sh android-configure ~/android-ndk-r21b $ARCH 23
 make -j8
 
