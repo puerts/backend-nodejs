@@ -46,7 +46,7 @@ node $GITHUB_WORKSPACE/make_v8_inspector_export.js
 
 echo "=====[Building Node.js]====="
 
-sed -i 's/--cross-compiling/--cross-compiling --shared --no-browser-globals/g' android-configure
+cp ../android-configure ./
 android-configure ~/android-ndk-r21b $ARCH 23
 make -j8
 
