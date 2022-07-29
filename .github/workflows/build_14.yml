@@ -106,9 +106,6 @@ jobs:
     runs-on: ubuntu-latest
     container: i386/ubuntu:18.04
     steps:
-      - name: Install gcc-multilib g++-multilib
-        run: |
-          sudo apt-get install gcc-multilib g++-multilib
       - uses: actions/checkout@v2
       - name: Install NDK
         run: |
