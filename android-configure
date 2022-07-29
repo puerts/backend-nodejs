@@ -27,20 +27,24 @@ case $ARCH in
     arm)
         DEST_CPU="arm"
         TOOLCHAIN_NAME="armv7a-linux-androideabi"
+        HOST_M32=" -m32"
         ;;
     x86)
         DEST_CPU="ia32"
         TOOLCHAIN_NAME="i686-linux-android"
+        HOST_M32=" -m32"
         ;;
     x86_64)
         DEST_CPU="x64"
         TOOLCHAIN_NAME="x86_64-linux-android"
         ARCH="x64"
+        HOST_M32=""
         ;;
     arm64|aarch64)
         DEST_CPU="arm64"
         TOOLCHAIN_NAME="aarch64-linux-android"
         ARCH="arm64"
+        HOST_M32=""
         ;;
     *)
         echo "Unsupported architecture provided: $ARCH"
@@ -68,6 +72,8 @@ export PATH=$TOOLCHAIN/bin:$PATH
 export CC=$TOOLCHAIN/bin/$SUFFIX-clang
 export CXX=$TOOLCHAIN/bin/$SUFFIX-clang++
 
+export CC_host=$CC_host$HOST_M32
+export CXX_host=$CXX_host$HOST_M32
 
 GYP_DEFINES="target_arch=$ARCH"
 GYP_DEFINES+=" v8_target_arch=$ARCH"

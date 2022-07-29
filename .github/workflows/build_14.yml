@@ -104,10 +104,10 @@ jobs:
           
   build_android_armv7:
     runs-on: ubuntu-latest
-    container: 
-      image: i386/ubuntu:18.04
-      entryPoint: /bin/bash
     steps:
+      - name: Install gcc-multilib g++-multilib
+        run: |
+          sudo apt-get install gcc-multilib g++-multilib
       - uses: actions/checkout@v2
       - name: Install NDK
         run: |
