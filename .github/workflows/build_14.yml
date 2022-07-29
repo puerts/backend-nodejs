@@ -104,6 +104,7 @@ jobs:
           
   build_android_armv7:
     runs-on: ubuntu-latest
+    container: i386/ubuntu:18.04
     steps:
       - name: Install gcc-multilib g++-multilib
         run: |
