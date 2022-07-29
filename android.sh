@@ -46,7 +46,7 @@ node $GITHUB_WORKSPACE/make_v8_inspector_export.js
 echo "=====[Building Node.js]====="
 
 cp $GITHUB_WORKSPACE/android-configure ./
-./android-configure ~/android-ndk-r21b $2 23
+./android-configure ~/android-ndk-r21b $2 24
 make -j8
 
 mkdir -p ../puerts-node/nodejs/lib/Android/$OUTPUT/
