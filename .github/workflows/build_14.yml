@@ -104,7 +104,9 @@ jobs:
           
   build_android_armv7:
     runs-on: ubuntu-latest
-    container: i386/ubuntu:18.04
+    container: 
+      image: i386/ubuntu:18.04
+      entryPoint: /bin/bash
     steps:
       - uses: actions/checkout@v2
       - name: Install NDK
