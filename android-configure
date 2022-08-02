@@ -87,7 +87,6 @@ if [ -f "configure" ]; then
         --dest-os=android \
         --without-snapshot \
         --partly-static \
-        --without-ssl \
         --with-intl=none \
         --shared \
         --no-browser-globals \
