@@ -17,9 +17,6 @@ call git checkout -- .
 
 copy /y %GITHUB_WORKSPACE%\zlib.def deps\zlib\win32\zlib.def
 
-echo =====[ add --partly-static  ]=====
-node -e "const fs = require('fs'); fs.writeFileSync('./vcbuild.bat', fs.readFileSync('./vcbuild.bat', 'utf-8').replace('set configure_flags=', 'set configure_flags="--partly-static "'));
-
 echo =====[ add ArrayBuffer_New_Without_Stl ]=====
 node %~dp0\add_arraybuffer_new_without_stl.js deps/v8
 

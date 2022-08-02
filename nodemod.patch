@@ -28,7 +28,7 @@ index b5c5a53dd7..d66e3a7bf8 100644
  set download_arg=
  set build_release=
 -set configure_flags=
-+set configure_flags=--no-browser-globals
++set configure_flags=--no-browser-globals --partly-static
  set build_addons=
  set dll=
  set enable_static=
