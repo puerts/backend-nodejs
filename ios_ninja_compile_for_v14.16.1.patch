@@ -52,7 +52,7 @@ index d0ecd452d8..8ef12362f8 100644
  static uv_once_t once = UV_ONCE_INIT;
  static uint64_t (*time_func)(void);
 diff --git a/node.gyp b/node.gyp
-index f18a0d58a8..2cb2b7aec2 100644
+index f18a0d58a8..00efe57096 100644
 --- a/node.gyp
 +++ b/node.gyp
 @@ -417,7 +417,7 @@
@@ -64,6 +64,27 @@ index f18a0d58a8..2cb2b7aec2 100644
                'ldflags': [
                  '-Wl,--whole-archive',
                  '<(obj_dir)/<(STATIC_LIB_PREFIX)<(node_core_target_name)<(STATIC_LIB_SUFFIX)',
+@@ -537,6 +537,20 @@
+         }],
+       ],
+     }, # node_core_target_name
++    {
++     
++      'target_name': 'libnode_stub',
++      'type': '<(node_intermediate_lib_type)',
++      'include_dirs': [
++        'src',
++        'deps/v8/include',
++        'deps/uv/include'
++      ],
++      'sources': [
++        'src/node_snapshot_stub.cc',
++        'src/node_code_cache_stub.cc',
++      ]
++    },
+     {
+       'target_name': '<(node_lib_target_name)',
+       'type': '<(node_intermediate_lib_type)',
 diff --git a/node.gypi b/node.gypi
 index 43dbda7bbf..8c81cd39ca 100644
 --- a/node.gypi

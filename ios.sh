@@ -1,6 +1,6 @@
 [ -z "$GITHUB_WORKSPACE" ] && GITHUB_WORKSPACE="$( cd "$( dirname "$0" )"/.. && pwd )"
 
-VERSION=14.18.3
+VERSION=$1
 
 cd ~
 git clone https://github.com/nodejs/node.git
@@ -72,20 +72,21 @@ fi
 ./ninja -j 8 -C out/Release
 
 echo "=====[Archive libnode]====="
-mkdir -p ../puerts-node/nodejs/iosinc/include
-mkdir -p ../puerts-node/nodejs/iosinc/deps/uv/include
-mkdir -p ../puerts-node/nodejs/iosinc/deps/v8/include
+#mkdir -p ../puerts-node/nodejs/iosinc/include
+#mkdir -p ../puerts-node/nodejs/iosinc/deps/uv/include
+#mkdir -p ../puerts-node/nodejs/iosinc/deps/v8/include
 
-cp src/node.h ../puerts-node/nodejs/iosinc/include
-cp src/node_version.h ../puerts-node/nodejs/iosinc/include
-cp -r deps/uv/include ../puerts-node/nodejs/iosinc/deps/uv
-cp -r deps/v8/include ../puerts-node/nodejs/iosinc/deps/v8
+#cp src/node.h ../puerts-node/nodejs/iosinc/include
+#cp src/node_version.h ../puerts-node/nodejs/iosinc/include
+#cp -r deps/uv/include ../puerts-node/nodejs/iosinc/deps/uv
+#cp -r deps/v8/include ../puerts-node/nodejs/iosinc/deps/v8
 
 mkdir -p ../puerts-node/nodejs/lib/iOS/
 cp \
   out/Release/obj/deps/histogram/libhistogram.a \
   out/Release/obj/deps/uvwasi/libuvwasi.a \
   out/Release/obj/libnode.a \
+  out/Release/obj/libnode_stub.a \
   out/Release/obj/tools/v8_gypfiles/libv8_snapshot.a \
   out/Release/obj/tools/v8_gypfiles/libv8_libplatform.a \
   out/Release/obj/deps/zlib/libzlib.a \
