@@ -85,8 +85,10 @@ cp \
   out/Release/obj/libnode.a \
   out/Release/obj/tools/v8_gypfiles/libv8_snapshot.a \
   out/Release/obj/tools/v8_gypfiles/libv8_libplatform.a \
-  out/Release/obj/deps/zlib/libzlib.a obj/deps/llhttp/libllhttp.a \
-  out/Release/obj/deps/cares/libcares.a obj/deps/uv/libuv.a \
+  out/Release/obj/deps/zlib/libzlib.a \
+  out/Release/obj/deps/llhttp/libllhttp.a \
+  out/Release/obj/deps/cares/libcares.a
+  out/Release/obj/deps/uv/libuv.a \
   out/Release/obj/deps/nghttp2/libnghttp2.a \
   out/Release/obj/deps/brotli/libbrotli.a \
   out/Release/obj/deps/openssl/libopenssl.a \
