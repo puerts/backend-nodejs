@@ -1,6 +1,6 @@
 [ -z "$GITHUB_WORKSPACE" ] && GITHUB_WORKSPACE="$( cd "$( dirname "$0" )"/.. && pwd )"
 
-VERSION=$1
+VERSION=14.18.3
 
 cd ~
 git clone https://github.com/nodejs/node.git
@@ -11,12 +11,10 @@ git checkout v$VERSION
 
 echo "=====[Patching Node.js]====="
 
-node $GITHUB_WORKSPACE/CRLF2LF.js $GITHUB_WORKSPACE/nodemod.patch
-git apply --cached $GITHUB_WORKSPACE/nodemod.patch
-node $GITHUB_WORKSPACE/CRLF2LF.js $GITHUB_WORKSPACE/lib_uv_add_on_watcher_queue_updated.patch
-git apply --cached $GITHUB_WORKSPACE/lib_uv_add_on_watcher_queue_updated.patch
-node $GITHUB_WORKSPACE/CRLF2LF.js $GITHUB_WORKSPACE/ios_ninja_compile_for_v_14_16_1.patch
-git apply --cached $GITHUB_WORKSPACE/ios_ninja_compile_for_v_14_16_1.patch
+node $GITHUB_WORKSPACE/CRLF2LF.js $GITHUB_WORKSPACE/lib_uv_add_on_watcher_queue_updated_v$VERSION.patch
+git apply --cached $GITHUB_WORKSPACE/lib_uv_add_on_watcher_queue_updated_v$VERSION.patch
+node $GITHUB_WORKSPACE/CRLF2LF.js $GITHUB_WORKSPACE/ios_ninja_compile_for_v$VERSION.patch
+git apply --cached $GITHUB_WORKSPACE/ios_ninja_compile_for_v$VERSION.patch
 git checkout -- .
 
 echo "=====[ add ArrayBuffer_New_Without_Stl ]====="
@@ -78,6 +76,15 @@ fi
 ./ninja -j 8 -C out/Release
 
 echo "=====[Archive libnode]====="
+mkdir -p ../puerts-node/nodejs/iosinc/include
+mkdir -p ../puerts-node/nodejs/iosinc/deps/uv/include
+mkdir -p ../puerts-node/nodejs/iosinc/deps/v8/include
+
+cp src/node.h ../puerts-node/nodejs/iosinc/include
+cp src/node_version.h ../puerts-node/nodejs/iosinc/include
+cp -r deps/uv/include ../puerts-node/nodejs/iosinc/deps/uv
+cp -r deps/v8/include ../puerts-node/nodejs/iosinc/deps/v8
+
 mkdir -p ../puerts-node/nodejs/lib/iOS/
 cp \
   out/Release/obj/deps/histogram/libhistogram.a \
