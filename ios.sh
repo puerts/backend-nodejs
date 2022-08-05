@@ -33,18 +33,14 @@ HOST_ARCH="x86_64"
 export CC_host=$(command -v clang)
 export CXX_host=$(command -v clang++)
 
-XCODE_PATH=`xcode-select -print-path`
-TOOLCHAIN=$XCODE_PATH/Toolchains/XcodeDefault.xctoolchain
-
-export PATH=$TOOLCHAIN/usr/bin:$PATH
-export CC=$TOOLCHAIN/usr/bin/clang
-export CXX=$TOOLCHAIN/usr/bin/clang++
-export AR=$TOOLCHAIN/usr/bin/ar
-export AS=$TOOLCHAIN/usr/bin/as
-export LD=$TOOLCHAIN/usr/bin/ld
-export LIBTOOL=$TOOLCHAIN/usr/bin/libtool
-export STRIP=$TOOLCHAIN/usr/bin/strip
-export RANLIB=$TOOLCHAIN/usr/bin/ranlib
+export CC="$(xcrun -sdk iphoneos -find clang)"
+export CXX="$(xcrun -sdk iphoneos -find clang++)"
+export AR="$(xcrun -sdk iphoneos -find ar)"
+export AS="$(xcrun -sdk iphoneos -find as)"
+export LD="$(xcrun -sdk iphoneos -find ld)"
+export LIBTOOL="$(xcrun -sdk iphoneos -find libtool)"
+export STRIP="$(xcrun -sdk iphoneos -find strip)"
+export RANLIB="$(xcrun -sdk iphoneos -find ranlib)"
 
 export SDK=`xcrun --sdk iphoneos --show-sdk-path`
 
