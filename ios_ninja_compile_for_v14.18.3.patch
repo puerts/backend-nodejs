@@ -36,7 +36,7 @@ index 88933e0074..90bc278aa6 100644
            'include_dirs': [ 'config/freebsd' ],
            'sources': [ 'config/freebsd/ares_config.h' ]
 diff --git a/node.gyp b/node.gyp
-index 63f60a924b..b288f47dda 100644
+index 63f60a924b..f173196178 100644
 --- a/node.gyp
 +++ b/node.gyp
 @@ -211,7 +211,7 @@
@@ -48,6 +48,27 @@ index 63f60a924b..b288f47dda 100644
                'ldflags': [
                  '-Wl,--whole-archive',
                  '<(obj_dir)/<(STATIC_LIB_PREFIX)<(node_core_target_name)<(STATIC_LIB_SUFFIX)',
+@@ -331,6 +331,20 @@
+         }],
+       ],
+     }, # node_core_target_name
++    {
++     
++      'target_name': 'libnode_stub',
++      'type': '<(node_intermediate_lib_type)',
++      'include_dirs': [
++        'src',
++        'deps/v8/include',
++        'deps/uv/include'
++      ],
++      'sources': [
++        'src/node_snapshot_stub.cc',
++        'src/node_code_cache_stub.cc',
++      ]
++    },
+     {
+       'target_name': '<(node_lib_target_name)',
+       'type': '<(node_intermediate_lib_type)',
 diff --git a/node.gypi b/node.gypi
 index 43dbda7bbf..8c81cd39ca 100644
 --- a/node.gypi
