@@ -1,3 +1,27 @@
+diff --git a/node.gyp b/node.gyp
+index f18a0d58a8..f76143d1b2 100644
+--- a/node.gyp
++++ b/node.gyp
+@@ -537,6 +537,19 @@
+         }],
+       ],
+     }, # node_core_target_name
++    {
++      'target_name': 'libnode_stub',
++      'type': '<(node_intermediate_lib_type)',
++      'include_dirs': [
++        'src',
++        'deps/v8/include',
++        'deps/uv/include'
++      ],
++      'sources': [
++        'src/node_snapshot_stub.cc',
++        'src/node_code_cache_stub.cc',
++      ]
++    },
+     {
+       'target_name': '<(node_lib_target_name)',
+       'type': '<(node_intermediate_lib_type)',
 diff --git a/tools/gyp/pylib/gyp/generator/make.py b/tools/gyp/pylib/gyp/generator/make.py
 index d163ae3135..b09dccf6fe 100644
 --- a/tools/gyp/pylib/gyp/generator/make.py
