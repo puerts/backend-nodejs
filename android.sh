@@ -31,8 +31,8 @@ git checkout v$VERSION
 
 echo "=====[Patching Node.js]====="
 
-node $GITHUB_WORKSPACE/CRLF2LF.js $GITHUB_WORKSPACE/nodemod.patch
-git apply --cached $GITHUB_WORKSPACE/nodemod.patch
+node $GITHUB_WORKSPACE/CRLF2LF.js $GITHUB_WORKSPACE/android_disable_alink_thin_v$VERSION.patch
+git apply --cached $GITHUB_WORKSPACE/android_disable_alink_thin_v$VERSION.patch
 node $GITHUB_WORKSPACE/CRLF2LF.js $GITHUB_WORKSPACE/lib_uv_add_on_watcher_queue_updated.patch
 git apply --cached $GITHUB_WORKSPACE/lib_uv_add_on_watcher_queue_updated.patch
 git checkout -- .
@@ -50,4 +50,27 @@ cp $GITHUB_WORKSPACE/android-configure ./
 make -j8
 
 mkdir -p ../puerts-node/nodejs/lib/Android/$OUTPUT/
-cp out/Release/libnode.so* ../puerts-node/nodejs/lib/Android/$OUTPUT/
+
+#for so
+#cp out/Release/libnode.so* ../puerts-node/nodejs/lib/Android/$OUTPUT/
+cp \
+  out/Release/obj.target/deps/histogram/libhistogram.a \
+  out/Release/obj.target/deps/uvwasi/libuvwasi.a \
+  out/Release/obj.target/libnode.a \
+  out/Release/obj.target/libnode_stub.a \
+  out/Release/obj.target/tools/v8_gypfiles/libv8_snapshot.a \
+  out/Release/obj.target/tools/v8_gypfiles/libv8_libplatform.a \
+  out/Release/obj.target/deps/zlib/libzlib.a \
+  out/Release/obj.target/deps/llhttp/libllhttp.a \
+  out/Release/obj.target/deps/cares/libcares.a \
+  out/Release/obj.target/deps/uv/libuv.a \
+  out/Release/obj.target/deps/nghttp2/libnghttp2.a \
+  out/Release/obj.target/deps/brotli/libbrotli.a \
+  out/Release/obj.target/deps/openssl/libopenssl.a \
+  out/Release/obj.target/tools/v8_gypfiles/libv8_base_without_compiler.a \
+  out/Release/obj.target/tools/v8_gypfiles/libv8_libbase.a \
+  out/Release/obj.target/tools/v8_gypfiles/libv8_libsampler.a \
+  out/Release/obj.target/tools/v8_gypfiles/libv8_zlib.a \
+  out/Release/obj.target/tools/v8_gypfiles/libv8_compiler.a \
+  out/Release/obj.target/tools/v8_gypfiles/libv8_initializers.a \
+  ../puerts-node/nodejs/lib/Android/$OUTPUT/

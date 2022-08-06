@@ -1,0 +1,13 @@
+diff --git a/tools/gyp/pylib/gyp/generator/make.py b/tools/gyp/pylib/gyp/generator/make.py
+index d163ae3135..b09dccf6fe 100644
+--- a/tools/gyp/pylib/gyp/generator/make.py
++++ b/tools/gyp/pylib/gyp/generator/make.py
+@@ -1763,7 +1763,7 @@ $(obj).$(TOOLSET)/$(TARGET)/%%.o: $(obj)/%%%s FORCE_DO_CMD
+                     "Spaces in alink input filenames not supported (%s)" % link_dep
+                 )
+             if (
+-                self.flavor not in ("mac", "openbsd", "netbsd", "win")
++                self.flavor not in ("mac", "openbsd", "netbsd", "win", "android")
+                 and not self.is_standalone_static_library
+             ):
+                 self.WriteDoCmd(
