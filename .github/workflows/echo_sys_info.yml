@@ -21,7 +21,7 @@ jobs:
     steps:
     - name: Run script
       run: |
-        sudo xcode-select -switch "/Applications/Xcode_12.app"
+        sudo xcode-select -switch "/Applications/Xcode_12.4.0.app"
         xcrun --sdk iphoneos --show-sdk-path
         
   macos_setup_xcode:
@@ -30,7 +30,7 @@ jobs:
     steps:
     - uses: maxim-lobanov/setup-xcode@v1
       with:
-        xcode-version: '12.0'
+        xcode-version: '12.4.0'
     - name: Run script
       run: |
         xcrun --sdk iphoneos --show-sdk-path
