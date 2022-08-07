@@ -1,0 +1,37 @@
+diff --git a/node.gyp b/node.gyp
+index 63f60a924b..3062798f58 100644
+--- a/node.gyp
++++ b/node.gyp
+@@ -331,6 +331,19 @@
+         }],
+       ],
+     }, # node_core_target_name
++    {
++      'target_name': 'libnode_stub',
++      'type': '<(node_intermediate_lib_type)',
++      'include_dirs': [
++        'src',
++        'deps/v8/include',
++        'deps/uv/include'
++      ],
++      'sources': [
++        'src/node_snapshot_stub.cc',
++        'src/node_code_cache_stub.cc',
++      ]
++    },
+     {
+       'target_name': '<(node_lib_target_name)',
+       'type': '<(node_intermediate_lib_type)',
+diff --git a/tools/gyp/pylib/gyp/generator/make.py b/tools/gyp/pylib/gyp/generator/make.py
+index d163ae3135..b09dccf6fe 100644
+--- a/tools/gyp/pylib/gyp/generator/make.py
++++ b/tools/gyp/pylib/gyp/generator/make.py
+@@ -1763,7 +1763,7 @@ $(obj).$(TOOLSET)/$(TARGET)/%%.o: $(obj)/%%%s FORCE_DO_CMD
+                     "Spaces in alink input filenames not supported (%s)" % link_dep
+                 )
+             if (
+-                self.flavor not in ("mac", "openbsd", "netbsd", "win")
++                self.flavor not in ("mac", "openbsd", "netbsd", "win", "android")
+                 and not self.is_standalone_static_library
+             ):
+                 self.WriteDoCmd(
