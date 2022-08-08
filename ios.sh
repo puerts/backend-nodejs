@@ -11,10 +11,10 @@ git checkout v$VERSION
 
 echo "=====[Patching Node.js]====="
 
-node $GITHUB_WORKSPACE/CRLF2LF.js $GITHUB_WORKSPACE/lib_uv_add_on_watcher_queue_updated_v$VERSION.patch
-git apply --cached $GITHUB_WORKSPACE/lib_uv_add_on_watcher_queue_updated_v$VERSION.patch
-node $GITHUB_WORKSPACE/CRLF2LF.js $GITHUB_WORKSPACE/ios_ninja_compile_for_v$VERSION.patch
-git apply --cached $GITHUB_WORKSPACE/ios_ninja_compile_for_v$VERSION.patch
+node $GITHUB_WORKSPACE/CRLF2LF.js $GITHUB_WORKSPACE/patchs/lib_uv_add_on_watcher_queue_updated_v$VERSION.patch
+git apply --cached $GITHUB_WORKSPACE/patchs/lib_uv_add_on_watcher_queue_updated_v$VERSION.patch
+node $GITHUB_WORKSPACE/CRLF2LF.js $GITHUB_WORKSPACE/patchs/ios_ninja_compile_for_v$VERSION.patch
+git apply --cached $GITHUB_WORKSPACE/patchs/ios_ninja_compile_for_v$VERSION.patch
 git checkout -- .
 
 echo "=====[ add ArrayBuffer_New_Without_Stl ]====="
