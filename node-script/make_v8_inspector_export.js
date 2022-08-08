@@ -1,3 +1,4 @@
+console.log("=====[ make_v8_inspector_export.js ]=====")
 const fs = require('fs');
 
 let v8_inspector_h_path = 'deps/v8/include/v8-inspector.h';

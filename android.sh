@@ -1,5 +1,6 @@
 [ -z "$GITHUB_WORKSPACE" ] && GITHUB_WORKSPACE="$( cd "$( dirname "$0" )"/.. && pwd )"
-
+WORKSPACE=$GITHUB_WORKSPACE
+HOMEPATH=~
 VERSION=$1
 ARCH="$2"
 
@@ -22,7 +23,7 @@ case $ARCH in
         ;;
 esac
 
-cd ~
+cd $HOMEPATH
 git clone https://github.com/nodejs/node.git
 
 cd node
@@ -30,22 +31,14 @@ git fetch origin v$VERSION
 git checkout v$VERSION
 
 echo "=====[Patching Node.js]====="
-
-node $GITHUB_WORKSPACE/CRLF2LF.js $GITHUB_WORKSPACE/patchs/android_disable_alink_thin_v$VERSION.patch
-git apply --cached $GITHUB_WORKSPACE/patchs/android_disable_alink_thin_v$VERSION.patch
-node $GITHUB_WORKSPACE/CRLF2LF.js $GITHUB_WORKSPACE/patchs/lib_uv_add_on_watcher_queue_updated_v$VERSION.patch
-git apply --cached $GITHUB_WORKSPACE/patchs/lib_uv_add_on_watcher_queue_updated_v$VERSION.patch
-git checkout -- .
-
-echo "=====[ add ArrayBuffer_New_Without_Stl ]====="
-node $GITHUB_WORKSPACE/add_arraybuffer_new_without_stl.js deps/v8
-
-echo "=====[ add make_v8_inspector_export ]====="
-node $GITHUB_WORKSPACE/make_v8_inspector_export.js
+node $WORKSPACE/node-script/do-gitpatch.js -p $WORKSPACE/patchs/android_disable_alink_thin_v$VERSION.patch
+node $WORKSPACE/node-script/do-gitpatch.js -p $WORKSPACE/patchs/lib_uv_add_on_watcher_queue_updated_v$VERSION.patch
+node $WORKSPACE/node-script/add_arraybuffer_new_without_stl.js deps/v8
+node $WORKSPACE/node-script/make_v8_inspector_export.js
 
 echo "=====[Building Node.js]====="
 
-cp $GITHUB_WORKSPACE/android-configure ./
+cp $WORKSPACE/android-configure ./
 ./android-configure ~/android-ndk-r21b $2 24
 make -j8
 

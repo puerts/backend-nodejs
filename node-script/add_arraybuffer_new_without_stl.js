@@ -1,3 +1,4 @@
+console.log('=====[ add ArrayBuffer_New_Without_Stl ]=====')
 const fs = require('fs');
 
 let v8_h_path = process.argv[2] + '/include/v8.h';

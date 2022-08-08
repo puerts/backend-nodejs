@@ -16,6 +16,9 @@ jobs:
     runs-on: windows-2019
     steps:
     - uses: actions/checkout@v2
+    - name: npm install
+      shell: bash
+      run: npm install
     - name: Run build script
       continue-on-error: true
       shell: cmd
@@ -37,6 +40,9 @@ jobs:
     runs-on: windows-2019
     steps:
     - uses: actions/checkout@v2
+    - name: npm install
+      shell: bash
+      run: npm install
     - name: Run build script
       continue-on-error: true
       shell: cmd
@@ -61,6 +67,9 @@ jobs:
       with:
         xcode-version: '12.4'
     - uses: actions/checkout@v2
+    - name: npm install
+      shell: bash
+      run: npm install
     - name: Run build script
       run: |
         cd $GITHUB_WORKSPACE
@@ -78,6 +87,9 @@ jobs:
       with:
         xcode-version: '11'
     - uses: actions/checkout@v2
+    - name: npm install
+      shell: bash
+      run: npm install
     - name: Run build script
       run: |
         cd $GITHUB_WORKSPACE
@@ -92,6 +104,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: npm install
+      shell: bash
+      run: npm install
     - name: Run build script
       run: |
         cd $GITHUB_WORKSPACE
@@ -105,6 +120,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: npm install
+        shell: bash
+        run: npm install
       - name: Install NDK
         run: |
           cd ~
@@ -127,6 +145,9 @@ jobs:
         run: |
           sudo apt-get install gcc-multilib g++-multilib
       - uses: actions/checkout@v2
+      - name: npm install
+        shell: bash
+        run: npm install
       - name: Install NDK
         run: |
           cd ~

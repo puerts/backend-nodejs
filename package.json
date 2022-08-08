@@ -1,0 +1,44 @@
+{
+  "name": "backend-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "balanced-match": "^1.0.2",
+    "brace-expansion": "^1.1.11",
+    "commander": "^9.4.0",
+    "concat-map": "^0.0.1",
+    "fs.realpath": "^1.0.0",
+    "function-bind": "^1.1.1",
+    "glob": "^7.2.3",
+    "has": "^1.0.3",
+    "iconv-lite": "^0.6.3",
+    "inflight": "^1.0.6",
+    "inherits": "^2.0.4",
+    "interpret": "^1.4.0",
+    "is-core-module": "^2.9.0",
+    "minimatch": "^3.1.2",
+    "once": "^1.4.0",
+    "path-is-absolute": "^1.0.1",
+    "path-parse": "^1.0.7",
+    "rechoir": "^0.6.2",
+    "resolve": "^1.22.1",
+    "safer-buffer": "^2.1.2",
+    "shelljs": "^0.8.5",
+    "supports-preserve-symlinks-flag": "^1.0.0",
+    "wrappy": "^1.0.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/puerts/backend-nodejs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/puerts/backend-nodejs/issues"
+  },
+  "homepage": "https://github.com/puerts/backend-nodejs#readme"
+}
