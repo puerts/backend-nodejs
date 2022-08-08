@@ -149,7 +149,7 @@ jobs:
         name: nodejs_bin
         path: ~/puerts-node/**/*
   
-   build_android_arm64:
+  build_android_arm64:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -171,7 +171,7 @@ jobs:
           name: nodejs_bin
           path: ~/puerts-node/**/*
         
-   build_android_armv7:
+  build_android_armv7:
     runs-on: ubuntu-latest
     steps:
       - name: Install gcc-multilib g++-multilib
