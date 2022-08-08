@@ -89,7 +89,7 @@ if [ -f "configure" ]; then
         --openssl-no-asm \
         --partly-static \
         --with-intl=none \
-        --enable-static \
+        --shared \
         --no-browser-globals \
         --cross-compiling
 fi
