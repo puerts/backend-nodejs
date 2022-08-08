@@ -32,12 +32,4 @@ index d1a9e59255..c463a67a66 100644
  set build_addons=
  set dll=
  set enable_static=
-@@ -68,7 +68,7 @@ set no_cctest=
- set cctest=
- set openssl_no_asm=
- set doc=
--set extra_msbuild_args=
-+set extra_msbuild_args=/p:PlatformToolset=v141
- set exit_code=0
- 
- :next-arg
+

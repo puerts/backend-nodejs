@@ -13,7 +13,7 @@ env:
 jobs:
   build_windows:
     name: Windows
-    runs-on: windows-2019
+    runs-on: windows-2022
     steps:
     - uses: actions/checkout@v2
     - name: npm install
@@ -41,7 +41,7 @@ jobs:
         
   build_windows_32:
     name: Windows-32
-    runs-on: windows-2019
+    runs-on: windows-2022
     steps:
     - uses: actions/checkout@v2
     - name: npm install
