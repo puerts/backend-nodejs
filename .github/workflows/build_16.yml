@@ -8,7 +8,7 @@ on:
         required: true
 
 env:
-  VERSION: 16.15.1
+  VERSION: 16.16.0
 
 jobs:
   build_windows:
@@ -16,6 +16,9 @@ jobs:
     runs-on: windows-2019
     steps:
     - uses: actions/checkout@v2
+    - name: npm install
+      shell: bash
+      run: npm install
     - name: Run build script
       continue-on-error: true
       shell: cmd
@@ -41,6 +44,9 @@ jobs:
     runs-on: windows-2019
     steps:
     - uses: actions/checkout@v2
+    - name: npm install
+      shell: bash
+      run: npm install
     - name: Run build script
       continue-on-error: true
       shell: cmd
@@ -66,6 +72,9 @@ jobs:
     runs-on: macos-10.15
     steps:
     - uses: actions/checkout@v2
+    - name: npm install
+      shell: bash
+      run: npm install
     - name: Use Xcode 12.0 to use SDK 10.15
       run: sudo xcode-select -switch "/Applications/Xcode_12.app"
     - name: Run build script
@@ -85,6 +94,9 @@ jobs:
     runs-on: macos-11
     steps:
     - uses: actions/checkout@v2
+    - name: npm install
+      shell: bash
+      run: npm install
     - name: Run build script
       run: |
         cd $GITHUB_WORKSPACE
@@ -96,12 +108,35 @@ jobs:
       with:
         name: nodejs_bin
         path: ~/puerts-node/**/*
-        
+       
+  build_ios:
+    name: iOS
+    runs-on: macos-11
+    steps:
+    - uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: '11'
+    - uses: actions/checkout@v2
+    - name: npm install
+      shell: bash
+      run: npm install
+    - name: Run build script
+      run: |
+        cd $GITHUB_WORKSPACE
+        sh ./ios.sh ${{env.VERSION}}
+    - uses: actions/upload-artifact@v2
+      with:
+        name: nodejs_bin
+        path: ~/puerts-node/**/*
+         
   build_linux:
     name: linux
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: npm install
+      shell: bash
+      run: npm install
     - name: Run build script
       run: |
         cd $GITHUB_WORKSPACE
@@ -113,50 +148,54 @@ jobs:
       with:
         name: nodejs_bin
         path: ~/puerts-node/**/*
-#  build_android_arm64:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#      - name: Install NDK
-#        run: |
-#          cd ~
-#          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r21b-linux-x86_64.zip
-#          sudo apt install unzip -y
-#          unzip -q NDK
-#      - name: Build
-#        run: |
-#          cd $GITHUB_WORKSPACE
-#          sh ./android.sh ${{env.VERSION}} arm64
-#      - uses: actions/upload-artifact@v2
-#        with:
-#          name: nodejs_bin
-#          path: ~/puerts-node/**/*
-#          
-#  build_android_armv7:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Install gcc-multilib g++-multilib
-#        run: |
-#          sudo apt-get install gcc-multilib g++-multilib
-#      - uses: actions/checkout@v2
-#      - name: Install NDK
-#        run: |
-#          cd ~
-#          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r21b-linux-x86_64.zip
-#          sudo apt install unzip -y
-#          unzip -q NDK
-#      - name: Build
-#        run: |
-#          cd $GITHUB_WORKSPACE
-#          sh ./android.sh ${{env.VERSION}} arm
-#      - uses: actions/upload-artifact@v2
-#        with:
-#          name: nodejs_bin
-#          path: ~/puerts-node/**/*
+  
+  # build_android_arm64:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - uses: actions/checkout@v2
+  #    - name: npm install
+  #      shell: bash
+  #      run: npm install
+  #    - name: Install NDK
+  #      run: |
+  #        cd ~
+  #        wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r21b-linux-x86_64.zip
+  #        sudo apt install unzip -y
+  #        unzip -q NDK
+  #    - name: Build
+  #      run: |
+  #        cd $GITHUB_WORKSPACE
+  #        sh ./android.sh ${{env.VERSION}} arm64
+  #    - uses: actions/upload-artifact@v2
+  #      with:
+  #        name: nodejs_bin
+  #        path: ~/puerts-node/**/*
+         
+  # build_android_armv7:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - name: Install gcc-multilib g++-multilib
+  #      run: |
+  #        sudo apt-get install gcc-multilib g++-multilib
+  #    - uses: actions/checkout@v2
+  #    - name: Install NDK
+  #      run: |
+  #        cd ~
+  #        wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r21b-linux-x86_64.zip
+  #        sudo apt install unzip -y
+  #        unzip -q NDK
+  #    - name: Build
+  #      run: |
+  #        cd $GITHUB_WORKSPACE
+  #        sh ./android.sh ${{env.VERSION}} arm
+  #    - uses: actions/upload-artifact@v2
+  #      with:
+  #        name: nodejs_bin
+  #        path: ~/puerts-node/**/*
         
   publish:
     runs-on: ubuntu-latest
-    needs: [build_windows,build_windows_32,build_macos,build_macos_arm64,build_linux,build_android_arm64,build_android_armv7]
+    needs: [build_windows,build_windows_32,build_macos,build_macos_arm64,build_linux,build_ios]
     steps:
       - uses: actions/download-artifact@v1
         with:

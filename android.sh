@@ -44,7 +44,7 @@ make -j8
 
 mkdir -p ../puerts-node/nodejs/lib/Android/$OUTPUT/
 
-#for so
+# for so
 cp out/Release/libnode.so* ../puerts-node/nodejs/lib/Android/$OUTPUT/
 #cp \
 #  out/Release/obj.target/deps/histogram/libhistogram.a \

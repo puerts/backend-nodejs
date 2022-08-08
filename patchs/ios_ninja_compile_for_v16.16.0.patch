@@ -1,0 +1,146 @@
+diff --git a/configure.py b/configure.py
+index fed2688c79..e998ec1b87 100755
+--- a/configure.py
++++ b/configure.py
+@@ -45,7 +45,7 @@ from utils import SearchFiles
+ parser = argparse.ArgumentParser()
+ 
+ valid_os = ('win', 'mac', 'solaris', 'freebsd', 'openbsd', 'linux',
+-            'android', 'aix', 'cloudabi')
++            'android', 'aix', 'cloudabi', 'ios')
+ valid_arch = ('arm', 'arm64', 'ia32', 'mips', 'mipsel', 'mips64el', 'ppc',
+               'ppc64', 'x64', 'x86', 'x86_64', 's390x', 'riscv64', 'loong64')
+ valid_arm_float_abi = ('soft', 'softfp', 'hard')
+@@ -2048,7 +2048,7 @@ write('config.mk', do_not_edit + config_str)
+ gyp_args = ['--no-parallel', '-Dconfiguring_node=1']
+ 
+ if options.use_ninja:
+-  gyp_args += ['-f', 'ninja']
++  gyp_args += ['-f', 'ninja-' + flavor]
+ elif flavor == 'win' and sys.platform != 'msys':
+   gyp_args += ['-f', 'msvs', '-G', 'msvs_version=auto']
+ else:
+diff --git a/deps/cares/cares.gyp b/deps/cares/cares.gyp
+index 88933e0074..90bc278aa6 100644
+--- a/deps/cares/cares.gyp
++++ b/deps/cares/cares.gyp
+@@ -161,6 +161,10 @@
+           'include_dirs': [ 'config/darwin' ],
+           'sources': [ 'config/darwin/ares_config.h' ]
+         }],
++        [ 'OS=="ios"', {
++          'include_dirs': [ 'config/darwin' ],
++          'sources': [ 'config/darwin/ares_config.h' ]
++        }],
+         [ 'OS=="freebsd" or OS=="dragonflybsd"', {
+           'include_dirs': [ 'config/freebsd' ],
+           'sources': [ 'config/freebsd/ares_config.h' ]
+diff --git a/node.gyp b/node.gyp
+index 74e9f9cc2e..50f913cd20 100644
+--- a/node.gyp
++++ b/node.gyp
+@@ -212,7 +212,7 @@
+             },
+           },
+           'conditions': [
+-            ['OS != "aix" and OS != "mac"', {
++            ['OS != "aix" and OS != "mac" and OS != "ios"', {
+               'ldflags': [
+                 '-Wl,--whole-archive',
+                 '<(obj_dir)/<(STATIC_LIB_PREFIX)<(node_core_target_name)<(STATIC_LIB_SUFFIX)',
+@@ -345,6 +345,20 @@
+         }],
+       ],
+     }, # node_core_target_name
++    {
++     
++      'target_name': 'libnode_stub',
++      'type': '<(node_intermediate_lib_type)',
++      'include_dirs': [
++        'src',
++        'deps/v8/include',
++        'deps/uv/include'
++      ],
++      'sources': [
++        'src/node_snapshot_stub.cc',
++        'src/node_code_cache_stub.cc',
++      ]
++    },
+     {
+       'target_name': '<(node_lib_target_name)',
+       'type': '<(node_intermediate_lib_type)',
+diff --git a/node.gypi b/node.gypi
+index 713ddbb74a..7ceca594d1 100644
+--- a/node.gypi
++++ b/node.gypi
+@@ -132,7 +132,7 @@
+             },
+           },
+           'conditions': [
+-            ['OS!="aix" and node_shared=="false"', {
++            ['OS!="aix" and OS!="ios" and node_shared=="false"', {
+               'ldflags': [
+                 '-Wl,--whole-archive',
+                 '<(obj_dir)/deps/zlib/<(STATIC_LIB_PREFIX)zlib<(STATIC_LIB_SUFFIX)',
+@@ -171,7 +171,7 @@
+             },
+           },
+           'conditions': [
+-            ['OS!="aix" and node_shared=="false"', {
++            ['OS!="aix" and OS!="ios" and node_shared=="false"', {
+               'ldflags': [
+                 '-Wl,--whole-archive',
+                 '<(obj_dir)/deps/uv/<(STATIC_LIB_PREFIX)uv<(STATIC_LIB_SUFFIX)',
+@@ -324,7 +324,7 @@
+             './deps/openssl/openssl.gyp:openssl',
+ 
+             # For tests
+-            './deps/openssl/openssl.gyp:openssl-cli',
++            # './deps/openssl/openssl.gyp:openssl-cli',
+           ],
+           'conditions': [
+             # -force_load or --whole-archive are not applicable for
+diff --git a/tools/gyp/pylib/gyp/common.py b/tools/gyp/pylib/gyp/common.py
+index 9213fcc5e8..9738fff4ac 100644
+--- a/tools/gyp/pylib/gyp/common.py
++++ b/tools/gyp/pylib/gyp/common.py
+@@ -463,7 +463,7 @@ def CopyTool(flavor, out_path, generator_flags={}):
+   to |out_path|."""
+     # aix and solaris just need flock emulation. mac and win use more complicated
+     # support scripts.
+-    prefix = {"aix": "flock", "solaris": "flock", "mac": "mac", "win": "win"}.get(
++    prefix = {"aix": "flock", "solaris": "flock", "mac": "mac", "win": "win", "ios": "mac"}.get(
+         flavor, None
+     )
+     if not prefix:
+diff --git a/tools/gyp/pylib/gyp/generator/ninja.py b/tools/gyp/pylib/gyp/generator/ninja.py
+index d173bf2299..1af1ab6dc6 100644
+--- a/tools/gyp/pylib/gyp/generator/ninja.py
++++ b/tools/gyp/pylib/gyp/generator/ninja.py
+@@ -1583,7 +1583,7 @@ class NinjaWriter:
+         elif spec["type"] == "static_library":
+             self.target.binary = self.ComputeOutput(spec)
+             if (
+-                self.flavor not in ("mac", "openbsd", "netbsd", "win")
++                self.flavor not in ("mac", "openbsd", "netbsd", "win", "ios")
+                 and not self.is_standalone_static_library
+             ):
+                 self.ninja.build(
+@@ -2496,7 +2496,7 @@ def GenerateOutputForConfig(target_list, target_dicts, data, params, config_name
+             ),
+         )
+ 
+-    if flavor != "mac" and flavor != "win":
++    if flavor != "mac" and flavor != "win" and flavor != "ios":
+         master_ninja.rule(
+             "alink",
+             description="AR $out",
+@@ -2845,7 +2845,7 @@ def GenerateOutputForConfig(target_list, target_dicts, data, params, config_name
+             if name != target.FinalOutput() and spec["toolset"] == "target":
+                 target_short_names.setdefault(name, []).append(target)
+             target_outputs[qualified_target] = target
+-            if qualified_target in all_targets:
++            if qualified_target in all_targets and 'executable' != target.type:
+                 all_outputs.add(target.FinalOutput())
+             non_empty_target_names.add(name)
+         else:
