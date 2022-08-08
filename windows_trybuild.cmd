@@ -23,8 +23,5 @@ node %~dp0\add_arraybuffer_new_without_stl.js deps/v8
 echo =====[ make_v8_inspector_export.js ]=====
 node %~dp0\make_v8_inspector_export.js
 
-echo =====[ switch to v141  ]=====
-node -e "const fs = require('fs'); fs.writeFileSync('./vcbuild.bat', fs.readFileSync('./vcbuild.bat', 'utf-8').replace('set extra_msbuild_args=', 'set extra_msbuild_args=/p:PlatformToolset=v141'));
-
 echo =====[ Building Node.js ]=====
 .\vcbuild.bat dll openssl-no-asm
