@@ -115,7 +115,7 @@ jobs:
     steps:
     - uses: maxim-lobanov/setup-xcode@v1
       with:
-        xcode-version: '11'
+        xcode-version: '12'
     - uses: actions/checkout@v2
     - name: npm install
       shell: bash
@@ -149,53 +149,53 @@ jobs:
         name: nodejs_bin
         path: ~/puerts-node/**/*
   
-  # build_android_arm64:
-  #  runs-on: ubuntu-latest
-  #  steps:
-  #    - uses: actions/checkout@v2
-  #    - name: npm install
-  #      shell: bash
-  #      run: npm install
-  #    - name: Install NDK
-  #      run: |
-  #        cd ~
-  #        wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r21b-linux-x86_64.zip
-  #        sudo apt install unzip -y
-  #        unzip -q NDK
-  #    - name: Build
-  #      run: |
-  #        cd $GITHUB_WORKSPACE
-  #        sh ./android.sh ${{env.VERSION}} arm64
-  #    - uses: actions/upload-artifact@v2
-  #      with:
-  #        name: nodejs_bin
-  #        path: ~/puerts-node/**/*
-         
-  # build_android_armv7:
-  #  runs-on: ubuntu-latest
-  #  steps:
-  #    - name: Install gcc-multilib g++-multilib
-  #      run: |
-  #        sudo apt-get install gcc-multilib g++-multilib
-  #    - uses: actions/checkout@v2
-  #    - name: Install NDK
-  #      run: |
-  #        cd ~
-  #        wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r21b-linux-x86_64.zip
-  #        sudo apt install unzip -y
-  #        unzip -q NDK
-  #    - name: Build
-  #      run: |
-  #        cd $GITHUB_WORKSPACE
-  #        sh ./android.sh ${{env.VERSION}} arm
-  #    - uses: actions/upload-artifact@v2
-  #      with:
-  #        name: nodejs_bin
-  #        path: ~/puerts-node/**/*
+   build_android_arm64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: npm install
+        shell: bash
+        run: npm install
+      - name: Install NDK
+        run: |
+          cd ~
+          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r21b-linux-x86_64.zip
+          sudo apt install unzip -y
+          unzip -q NDK
+      - name: Build
+        run: |
+          cd $GITHUB_WORKSPACE
+          sh ./android.sh ${{env.VERSION}} arm64
+      - uses: actions/upload-artifact@v2
+        with:
+          name: nodejs_bin
+          path: ~/puerts-node/**/*
+        
+   build_android_armv7:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install gcc-multilib g++-multilib
+        run: |
+          sudo apt-get install gcc-multilib g++-multilib
+      - uses: actions/checkout@v2
+      - name: Install NDK
+        run: |
+          cd ~
+          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r21b-linux-x86_64.zip
+          sudo apt install unzip -y
+          unzip -q NDK
+      - name: Build
+        run: |
+          cd $GITHUB_WORKSPACE
+          sh ./android.sh ${{env.VERSION}} arm
+      - uses: actions/upload-artifact@v2
+        with:
+          name: nodejs_bin
+          path: ~/puerts-node/**/*
         
   publish:
     runs-on: ubuntu-latest
-    needs: [build_windows,build_windows_32,build_macos,build_macos_arm64,build_linux,build_ios]
+    needs: [build_windows,build_windows_32,build_macos,build_macos_arm64,build_linux,build_ios,build_android_arm64,build_android_armv7]
     steps:
       - uses: actions/download-artifact@v1
         with:
