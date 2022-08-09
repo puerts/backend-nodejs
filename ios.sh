@@ -22,7 +22,7 @@ wget https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-mac.zip
 unzip ninja-mac.zip
 
 echo "=====[Building libnode]====="
-HOST_OS="darwin"
+HOST_OS="mac"
 HOST_ARCH="x86_64"
 export CC_host=$(command -v clang)
 export CXX_host=$(command -v clang++)
