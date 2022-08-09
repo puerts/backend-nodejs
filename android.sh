@@ -6,7 +6,7 @@ ARCH="$2"
 
 case $ARCH in
     arm)
-        OUTPUT="armv7"
+        OUTPUT="armeabi-v7a"
         ;;
     x86)
         OUTPUT="x86"
@@ -15,7 +15,7 @@ case $ARCH in
         OUTPUT="x64"
         ;;
     arm64|aarch64)
-        OUTPUT="arm64"
+        OUTPUT="arm64-v8a"
         ;;
     *)
         echo "Unsupported architecture provided: $ARCH"
