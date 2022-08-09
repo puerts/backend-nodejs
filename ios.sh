@@ -92,7 +92,6 @@ cp \
   out/Release/obj/deps/openssl/libopenssl.a \
   out/Release/obj/tools/v8_gypfiles/libv8_base_without_compiler.a \
   out/Release/obj/tools/v8_gypfiles/libv8_libbase.a \
-  out/Release/obj/tools/v8_gypfiles/libv8_libsampler.a \
   out/Release/obj/tools/v8_gypfiles/libv8_zlib.a \
   out/Release/obj/tools/v8_gypfiles/libv8_compiler.a \
   out/Release/obj/tools/v8_gypfiles/libv8_initializers.a \
@@ -137,4 +136,6 @@ cp \
   out/Release/obj/deps/ngtcp2/libngtcp2.a \
   out/Release/obj/deps/ngtcp2/libnghttp3.a \
   ../puerts-node/nodejs/lib/iOS/
+else
+cp out/Release/obj/tools/v8_gypfiles/libv8_libsampler.a ../puerts-node/nodejs/lib/iOS/
 fi
