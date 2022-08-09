@@ -124,6 +124,9 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE
         sh ./ios.sh ${{env.VERSION}}
+    - name: Rename
+      run: |
+        mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
     - uses: actions/upload-artifact@v2
       with:
         name: nodejs_bin
@@ -166,6 +169,9 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE
           sh ./android.sh ${{env.VERSION}} arm64
+      - name: Rename
+        run: |
+          mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
       - uses: actions/upload-artifact@v2
         with:
           name: nodejs_bin
@@ -188,6 +194,9 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE
           sh ./android.sh ${{env.VERSION}} arm
+      - name: Rename
+        run: |
+          mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
       - uses: actions/upload-artifact@v2
         with:
           name: nodejs_bin
