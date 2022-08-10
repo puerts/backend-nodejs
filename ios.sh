@@ -63,7 +63,7 @@ if [ -f "configure" ]; then
         --cross-compiling
 fi
 
-./ninja -j 8 -C out/Release
+./ninja -j 8 -w dupbuild=warn -C out/Release
 
 echo "=====[Archive libnode]====="
 #mkdir -p ../puerts-node/nodejs/iosinc/include
