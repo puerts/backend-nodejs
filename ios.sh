@@ -40,7 +40,7 @@ export SDK=`xcrun --sdk iphoneos --show-sdk-path`
 
 export CXXFLAGS="-std=c++17 -O -arch arm64 -isysroot $SDK" 
 export CFLAGS="-O -arch arm64 -isysroot $SDK" 
-export LDFLAGS="-O -arch arm64 -isysroot $SDK" 
+#export LDFLAGS="-O -arch arm64 -isysroot $SDK" 
 
 export CXXFLAGS_host="-DV8_HOST_ARCH_X64 -std=c++17" 
 export CFLAGS_host="" 
