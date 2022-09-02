@@ -1,3 +1,5 @@
+#!/bin/bash
+
 [ -z "$GITHUB_WORKSPACE" ] && GITHUB_WORKSPACE="$( cd "$( dirname "$0" )"/.. && pwd )"
 WORKSPACE=$GITHUB_WORKSPACE
 HOMEPATH=~
@@ -66,41 +68,9 @@ cp \
   out/Release/obj.target/tools/v8_gypfiles/libv8_initializers.a \
   ../puerts-node/nodejs/lib/Android_Static/$OUTPUT/
 
-vercomp () {
-    if [[ $1 == $2 ]]
-    then
-        return 0
-    fi
-    local IFS=.
-    local i ver1=($1) ver2=($2)
-    # fill empty fields in ver1 with zeros
-    for ((i=${#ver1[@]}; i<${#ver2[@]}; i++))
-    do
-        ver1[i]=0
-    done
-    for ((i=0; i<${#ver1[@]}; i++))
-    do
-        if [[ -z ${ver2[i]} ]]
-        then
-            # fill empty fields in ver2 with zeros
-            ver2[i]=0
-        fi
-        if ((10#${ver1[i]} > 10#${ver2[i]}))
-        then
-            return 1
-        fi
-        if ((10#${ver1[i]} < 10#${ver2[i]}))
-        then
-            return 2
-        fi
-    done
-    return 0
-}
+function version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
 
-vercomp "16" $VERSION
-
-if [ $? == 2 ]
-then
+if version_gt $VERSION "16"; then
 cp \
   out/Release/obj/deps/ngtcp2/libngtcp2.a \
   out/Release/obj/deps/ngtcp2/libnghttp3.a \

@@ -218,7 +218,7 @@ jobs:
       - name: Build
         run: |
           cd $GITHUB_WORKSPACE
-          sh ./android-static.sh ${{env.VERSION}} arm64
+          bash ./android-static.sh ${{env.VERSION}} arm64
       - name: Rename
         run: |
           mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
@@ -243,7 +243,7 @@ jobs:
       - name: Build
         run: |
           cd $GITHUB_WORKSPACE
-          sh ./android-static.sh ${{env.VERSION}} arm
+          bash ./android-static.sh ${{env.VERSION}} arm
       - name: Rename
         run: |
           mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
