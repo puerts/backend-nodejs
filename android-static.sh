@@ -60,7 +60,6 @@ cp \
   out/Release/obj.target/deps/uv/libuv.a \
   out/Release/obj.target/deps/nghttp2/libnghttp2.a \
   out/Release/obj.target/deps/brotli/libbrotli.a \
-  out/Release/obj.target/deps/openssl/libopenssl.a \
   out/Release/obj.target/tools/v8_gypfiles/libv8_base_without_compiler.a \
   out/Release/obj.target/tools/v8_gypfiles/libv8_libbase.a \
   out/Release/obj.target/tools/v8_gypfiles/libv8_zlib.a \
