@@ -71,10 +71,7 @@ cp \
 function version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
 
 if version_gt $VERSION "16"; then
-cp \
-  out/Release/obj.target/deps/ngtcp2/libngtcp2.a \
-  out/Release/obj.target/deps/ngtcp2/libnghttp3.a \
-  ../puerts-node/nodejs/lib/Android_Static/$OUTPUT/
+echo "do nothing"
 else
 cp out/Release/obj.target/tools/v8_gypfiles/libv8_libsampler.a \
   ../puerts-node/nodejs/lib/Android_Static/$OUTPUT/
