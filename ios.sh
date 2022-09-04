@@ -57,7 +57,7 @@ if [ -f "configure" ]; then
         --dest-cpu=arm64 \
         --dest-os=ios \
         --without-snapshot \
-        --openssl-no-asm \
+        --without-ssl \
         --enable-static \
         --with-intl=none \
         --no-browser-globals \
@@ -133,10 +133,7 @@ vercomp "16" $VERSION
 
 if [ $? == 2 ]
 then
-cp \
-  out/Release/obj/deps/ngtcp2/libngtcp2.a \
-  out/Release/obj/deps/ngtcp2/libnghttp3.a \
-  ../puerts-node/nodejs/lib/iOS/
+echo "do nothing"
 else
 cp out/Release/obj/tools/v8_gypfiles/libv8_libsampler.a ../puerts-node/nodejs/lib/iOS/
 fi
