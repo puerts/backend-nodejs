@@ -45,7 +45,7 @@ cp $WORKSPACE/android-configure-static ./
 ./android-configure-static ~/android-ndk-r21b $2 24
 make -j8
 
-mkdir -p ../puerts-node/nodejs/lib/Android_Static/$OUTPUT/
+mkdir -p ../puerts-node/nodejs/lib/Android/$OUTPUT/
 
 cp \
   out/Release/obj.target/deps/histogram/libhistogram.a \
@@ -65,7 +65,7 @@ cp \
   out/Release/obj.target/tools/v8_gypfiles/libv8_zlib.a \
   out/Release/obj.target/tools/v8_gypfiles/libv8_compiler.a \
   out/Release/obj.target/tools/v8_gypfiles/libv8_initializers.a \
-  ../puerts-node/nodejs/lib/Android_Static/$OUTPUT/
+  ../puerts-node/nodejs/lib/Android/$OUTPUT/
 
 function version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
 
@@ -73,5 +73,5 @@ if version_gt $VERSION "16"; then
 echo "do nothing"
 else
 cp out/Release/obj.target/tools/v8_gypfiles/libv8_libsampler.a \
-  ../puerts-node/nodejs/lib/Android_Static/$OUTPUT/
+  ../puerts-node/nodejs/lib/Android/$OUTPUT/
 fi
