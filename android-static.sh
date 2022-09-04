@@ -68,10 +68,9 @@ cp \
   ../puerts-node/nodejs/lib/Android/$OUTPUT/
 
 function version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
+function version_lt() { test "$(echo "$@" | tr " " "\n" | sort -rV | head -n 1)" != "$1"; }
 
-if version_gt $VERSION "16"; then
-echo "do nothing"
-else
+if version_lt $VERSION "16"; then
 cp out/Release/obj.target/tools/v8_gypfiles/libv8_libsampler.a \
   ../puerts-node/nodejs/lib/Android/$OUTPUT/
 fi
