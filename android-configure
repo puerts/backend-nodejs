@@ -88,6 +88,7 @@ if [ -f "configure" ]; then
         --dest-cpu=$DEST_CPU \
         --dest-os=android \
         --without-snapshot \
+        --without-ssl \
         --partly-static \
         --with-intl=none \
         --shared \
@@ -98,7 +99,7 @@ if [ -f "configure" ]; then
         --dest-cpu=$DEST_CPU \
         --dest-os=android \
         --without-snapshot \
-        --without-ssl \
+        --openssl-no-asm \
         --partly-static \
         --with-intl=none \
         --shared \

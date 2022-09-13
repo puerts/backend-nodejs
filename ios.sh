@@ -71,6 +71,7 @@ if [ -f "configure" ]; then
         --dest-cpu=arm64 \
         --dest-os=ios \
         --without-snapshot \
+        --openssl-no-asm \
         --enable-static \
         --with-intl=none \
         --no-browser-globals \

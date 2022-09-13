@@ -99,6 +99,7 @@ if [ -f "configure" ]; then
         --dest-cpu=$DEST_CPU \
         --dest-os=android \
         --without-snapshot \
+        --openssl-no-asm \
         --with-intl=none \
         --enable-static \
         --no-browser-globals \
