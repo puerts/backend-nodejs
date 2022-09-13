@@ -3,6 +3,7 @@ WORKSPACE=$GITHUB_WORKSPACE
 HOMEPATH=~
 VERSION=$1
 ARCH="$2"
+WITH_SSL=$3
 
 case $ARCH in
     arm)
@@ -40,7 +41,7 @@ node $WORKSPACE/node-script/make_v8_inspector_export.js
 echo "=====[Building Node.js]====="
 
 cp $WORKSPACE/android-configure ./
-./android-configure ~/android-ndk-r21b $2 24
+./android-configure ~/android-ndk-r21b $2 24 $WITH_SSL
 make -j8
 
 mkdir -p ../puerts-node/nodejs/lib/Android/$OUTPUT/
