@@ -8,10 +8,10 @@
 # modules with npm. Also, don't forget to set the arch in npm config using
 # 'npm config set arch=<arch>'
 
-if [ $# -ne 3 ]; then
-  echo "$0 should have 3 parameters: ndk_path, target_arch and sdk_version"
-  exit 1
-fi
+# if [ $# -ne 3 ]; then
+#   echo "$0 should have 3 parameters: ndk_path, target_arch and sdk_version"
+#   exit 1
+# fi
 
 NDK_PATH=$1
 ARCH="$2"
