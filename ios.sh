@@ -2,6 +2,7 @@
 WORKSPACE=$GITHUB_WORKSPACE
 HOMEPATH=~
 VERSION=$1
+WITH_SSL=$2
 
 cd $HOMEPATH
 git clone https://github.com/nodejs/node.git
@@ -52,6 +53,8 @@ GYP_DEFINES+=" host_os=$HOST_OS OS=ios"
 export GYP_DEFINES
 
 if [ -f "configure" ]; then
+
+  if [ $WITHSSL == "" ]; then
     ./configure \
         --ninja \
         --dest-cpu=arm64 \
@@ -62,6 +65,18 @@ if [ -f "configure" ]; then
         --with-intl=none \
         --no-browser-globals \
         --cross-compiling
+  else
+    ./configure \
+        --ninja \
+        --dest-cpu=arm64 \
+        --dest-os=ios \
+        --without-snapshot \
+        --openssl-no-asm \
+        --enable-static \
+        --with-intl=none \
+        --no-browser-globals \
+        --cross-compiling
+  fi
 fi
 
 ./ninja -j 8 -w dupbuild=warn -C out/Release

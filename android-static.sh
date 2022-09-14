@@ -5,6 +5,7 @@ WORKSPACE=$GITHUB_WORKSPACE
 HOMEPATH=~
 VERSION=$1
 ARCH="$2"
+WITH_SSL=$3
 
 case $ARCH in
     arm)
@@ -42,7 +43,7 @@ node $WORKSPACE/node-script/make_v8_inspector_export.js
 echo "=====[Building Node.js]====="
 
 cp $WORKSPACE/android-configure-static ./
-./android-configure-static ~/android-ndk-r21b $2 24
+./android-configure-static ~/android-ndk-r21b $2 24 $WITH_SSL
 make -j8
 
 mkdir -p ../puerts-node/nodejs/lib/Android/$OUTPUT/
@@ -60,6 +61,7 @@ cp \
   out/Release/obj.target/deps/uv/libuv.a \
   out/Release/obj.target/deps/nghttp2/libnghttp2.a \
   out/Release/obj.target/deps/brotli/libbrotli.a \
+  out/Release/obj.target/deps/openssl/libopenssl.a \
   out/Release/obj.target/tools/v8_gypfiles/libv8_base_without_compiler.a \
   out/Release/obj.target/tools/v8_gypfiles/libv8_libbase.a \
   out/Release/obj.target/tools/v8_gypfiles/libv8_zlib.a \
