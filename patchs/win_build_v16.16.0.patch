@@ -1,5 +1,5 @@
 diff --git a/node.gyp b/node.gyp
-index 74e9f9cc2e..0d52c3b0f0 100644
+index 74e9f9cc..0d52c3b0 100644
 --- a/node.gyp
 +++ b/node.gyp
 @@ -80,7 +80,7 @@
@@ -19,17 +19,3 @@ index 74e9f9cc2e..0d52c3b0f0 100644
            ],
          }],
          [ 'node_use_etw=="true"', {
-diff --git a/vcbuild.bat b/vcbuild.bat
-index d1a9e59255..c463a67a66 100644
---- a/vcbuild.bat
-+++ b/vcbuild.bat
-@@ -51,7 +51,7 @@ set noetw_msi_arg=
- set i18n_arg=
- set download_arg=
- set build_release=
--set configure_flags=
-+set configure_flags=--no-browser-globals
- set build_addons=
- set dll=
- set enable_static=
-

@@ -92,7 +92,6 @@ if [ -f "configure" ]; then
         --partly-static \
         --with-intl=none \
         --shared \
-        --no-browser-globals \
         --cross-compiling
   else 
     ./configure \
@@ -103,7 +102,6 @@ if [ -f "configure" ]; then
         --partly-static \
         --with-intl=none \
         --shared \
-        --no-browser-globals \
         --cross-compiling
   fi
 fi
