@@ -145,6 +145,7 @@ jobs:
     - name: Rename
       run: |
         mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
+        cp $GITHUB_WORKSPACE/puer-build.json ~/puerts-node/nodejs_16
     - uses: actions/upload-artifact@v2
       with:
         name: nodejs_bin
