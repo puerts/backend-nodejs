@@ -5,7 +5,10 @@
         "/deps/v8/include",
         "/deps/uv/include"
     ],
-    "skip": { "win": { "ia32": true } },
+    "skip": { 
+        "win": { "ia32": true },
+        "android": { "x64": true }
+    },
     "link-libraries": {
         "win": {
             "ia32": ["/Lib/Win32/libnode.lib"],
