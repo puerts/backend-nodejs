@@ -1,4 +1,4 @@
-name: build nodejs v16 (preview)
+name: build nodejs v16
 
 on: 
   workflow_dispatch:

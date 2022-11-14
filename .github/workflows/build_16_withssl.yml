@@ -1,4 +1,4 @@
-name: build nodejs v16 withssl (preview)
+name: build nodejs v16 withssl
 
 on: 
   workflow_dispatch:
