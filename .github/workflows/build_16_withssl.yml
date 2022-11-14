@@ -38,6 +38,10 @@ jobs:
       with:
         name: nodejs_bin
         path: puerts-node/**/*
+    - uses: actions/upload-artifact@v2
+      with:
+        name: nodejs_bin_win_x64
+        path: ~/puerts-node/**/*
         
   build_windows_32:
     name: Windows-32
@@ -85,6 +89,10 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: nodejs_bin
+        path: ~/puerts-node/**/*
+    - uses: actions/upload-artifact@v2
+      with:
+        name: nodejs_bin_mac_x64
         path: ~/puerts-node/**/*
           
   build_macos_arm64:
