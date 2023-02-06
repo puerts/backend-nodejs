@@ -63,7 +63,6 @@ if [ -f "configure" ]; then
         --without-ssl \
         --enable-static \
         --with-intl=none \
-        --no-browser-globals \
         --cross-compiling
   else
     ./configure \
@@ -74,7 +73,6 @@ if [ -f "configure" ]; then
         --openssl-no-asm \
         --enable-static \
         --with-intl=none \
-        --no-browser-globals \
         --cross-compiling
   fi
 fi

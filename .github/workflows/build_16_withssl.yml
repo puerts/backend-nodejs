@@ -1,4 +1,4 @@
-name: build nodejs v16 withssl (preview)
+name: build nodejs v16 withssl
 
 on: 
   workflow_dispatch:
@@ -38,6 +38,10 @@ jobs:
       with:
         name: nodejs_bin
         path: puerts-node/**/*
+    - uses: actions/upload-artifact@v2
+      with:
+        name: nodejs_bin_win_x64
+        path: ~/puerts-node/**/*
         
   build_windows_32:
     name: Windows-32
@@ -85,6 +89,10 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: nodejs_bin
+        path: ~/puerts-node/**/*
+    - uses: actions/upload-artifact@v2
+      with:
+        name: nodejs_bin_mac_x64
         path: ~/puerts-node/**/*
           
   build_macos_arm64:
@@ -145,6 +153,7 @@ jobs:
     - name: Rename
       run: |
         mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
+        cp $GITHUB_WORKSPACE/puer-build.json ~/puerts-node/nodejs_16
     - uses: actions/upload-artifact@v2
       with:
         name: nodejs_bin
