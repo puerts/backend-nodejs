@@ -17,6 +17,11 @@ node $WORKSPACE/node-script/make_v8_inspector_export.js
 
 echo "=====[Building Node.js]====="
 
+export CC=clang
+export CXX=clang++
+export CXXFLAGS="-stdlib=libc++"
+export LDFLAGS="-stdlib=libc++"
+
 ./configure --shared
 make -j8
 
