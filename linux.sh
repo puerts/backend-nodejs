@@ -36,3 +36,6 @@ cp -r deps/v8/include ../puerts-node/nodejs/deps/v8
 
 mkdir -p ../puerts-node/nodejs/lib/Linux/
 cp out/Release/libnode.so.* ../puerts-node/nodejs/lib/Linux/
+cd ../puerts-node/nodejs/lib/Linux/
+ln -s libnode.so.93 libnode.so
+cd -
