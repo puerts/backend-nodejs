@@ -187,9 +187,9 @@ jobs:
   build_android_armv7_shared:
     runs-on: ubuntu-latest
     steps:
-      - name: Install gcc-multilib g++-multilib
-        run: |
-          sudo apt-get install gcc-multilib g++-multilib
+      #- name: Install gcc-multilib g++-multilib
+      #  run: |
+      #    sudo apt-get install gcc-multilib g++-multilib
       - uses: actions/checkout@v2
       - name: npm install
         shell: bash
@@ -240,9 +240,9 @@ jobs:
   build_android_armv7:
     runs-on: ubuntu-latest
     steps:
-      - name: Install gcc-multilib g++-multilib
-        run: |
-          sudo apt-get install gcc-multilib g++-multilib
+      #- name: Install gcc-multilib g++-multilib
+      #  run: |
+      #    sudo apt-get install gcc-multilib g++-multilib
       - uses: actions/checkout@v2
       - name: npm install
         shell: bash
