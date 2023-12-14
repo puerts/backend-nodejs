@@ -284,7 +284,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: NodeJS_${{env.VERSION}}_${{ github.event.inputs.tag_date }}
+          tag_name: NodeJS_${{env.VERSION}}_ssl_${{ github.event.inputs.tag_date }}
           release_name: NodeJS_${{env.VERSION}}(with ssl)_${{ github.event.inputs.tag_date }}
           draft: false
           prerelease: false
