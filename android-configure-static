@@ -85,6 +85,7 @@ export GYP_DEFINES
 
 if [ -f "configure" ]; then
   if [ $WITH_SSL == "" ]; then 
+     echo "=========================building without-ssl version================================="
     ./configure \
         --dest-cpu=$DEST_CPU \
         --dest-os=android \
@@ -94,6 +95,7 @@ if [ -f "configure" ]; then
         --enable-static \
         --cross-compiling
   else 
+    echo "=========================building with-ssl version================================="
     ./configure \
         --dest-cpu=$DEST_CPU \
         --dest-os=android \
