@@ -83,26 +83,24 @@ GYP_DEFINES+=" host_os=$HOST_OS OS=android"
 export GYP_DEFINES
 
 
-if [ -f "configure" ]; then
-  if [ $WITH_SSL == "" ]; then 
-     echo "=========================building without-ssl version================================="
-    ./configure \
-        --dest-cpu=$DEST_CPU \
-        --dest-os=android \
-        --without-snapshot \
-        --without-ssl \
-        --with-intl=none \
-        --enable-static \
-        --cross-compiling
-  else 
-    echo "=========================building with-ssl version================================="
-    ./configure \
-        --dest-cpu=$DEST_CPU \
-        --dest-os=android \
-        --without-snapshot \
-        --openssl-no-asm \
-        --with-intl=none \
-        --enable-static \
-        --cross-compiling
-  fi
+if [ "$WITH_SSL" == "" ]; then 
+   echo "=========================building without-ssl version================================="
+  ./configure \
+      --dest-cpu=$DEST_CPU \
+      --dest-os=android \
+      --without-snapshot \
+      --without-ssl \
+      --with-intl=none \
+      --enable-static \
+      --cross-compiling
+else 
+  echo "=========================building with-ssl version================================="
+  ./configure \
+      --dest-cpu=$DEST_CPU \
+      --dest-os=android \
+      --without-snapshot \
+      --openssl-no-asm \
+      --with-intl=none \
+      --enable-static \
+      --cross-compiling
 fi
