@@ -52,29 +52,28 @@ GYP_DEFINES+=" ios_target_arch=arm64"
 GYP_DEFINES+=" host_os=$HOST_OS OS=ios"
 export GYP_DEFINES
 
-if [ -f "configure" ]; then
-
-  if [ $WITHSSL == "" ]; then
-    ./configure \
-        --ninja \
-        --dest-cpu=arm64 \
-        --dest-os=ios \
-        --without-snapshot \
-        --without-ssl \
-        --enable-static \
-        --with-intl=none \
-        --cross-compiling
-  else
-    ./configure \
-        --ninja \
-        --dest-cpu=arm64 \
-        --dest-os=ios \
-        --without-snapshot \
-        --openssl-no-asm \
-        --enable-static \
-        --with-intl=none \
-        --cross-compiling
-  fi
+if [ "$WITHSSL" == "" ]; then
+  echo "=========================building without-ssl version================================="
+  ./configure \
+      --ninja \
+      --dest-cpu=arm64 \
+      --dest-os=ios \
+      --without-snapshot \
+      --without-ssl \
+      --enable-static \
+      --with-intl=none \
+      --cross-compiling
+else
+  echo "=========================building with-ssl version================================="
+  ./configure \
+      --ninja \
+      --dest-cpu=arm64 \
+      --dest-os=ios \
+      --without-snapshot \
+      --openssl-no-asm \
+      --enable-static \
+      --with-intl=none \
+      --cross-compiling
 fi
 
 ./ninja -j 8 -w dupbuild=warn -C out/Release
