@@ -61,7 +61,7 @@ jobs:
           
   build_macos:
     name: macOS
-    runs-on: macos-11
+    runs-on: macos-latest
     steps:
     - uses: maxim-lobanov/setup-xcode@v1
       with:
@@ -81,7 +81,7 @@ jobs:
 
   build_ios:
     name: iOS
-    runs-on: macos-11
+    runs-on: macos-latest
     steps:
     - uses: maxim-lobanov/setup-xcode@v1
       with:
