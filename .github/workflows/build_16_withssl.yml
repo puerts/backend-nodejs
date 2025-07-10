@@ -34,11 +34,11 @@ jobs:
       shell: bash
       run: |
         mv puerts-node/nodejs puerts-node/nodejs_16
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin
         path: puerts-node/**/*
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin_win_x64
         path: ~/puerts-node/**/*
@@ -66,7 +66,7 @@ jobs:
       shell: bash
       run: |
         mv puerts-node/nodejs puerts-node/nodejs_16
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin
         path: puerts-node/**/*
@@ -86,11 +86,11 @@ jobs:
     - name: Rename
       run: |
         mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin
         path: ~/puerts-node/**/*
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin_mac_x64
         path: ~/puerts-node/**/*
@@ -110,7 +110,7 @@ jobs:
     - name: Rename
       run: |
         mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin
         path: ~/puerts-node/**/*
@@ -133,7 +133,7 @@ jobs:
     - name: Rename
       run: |
         mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin
         path: ~/puerts-node/**/*
@@ -154,7 +154,7 @@ jobs:
       run: |
         mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
         cp $GITHUB_WORKSPACE/puer-build.json ~/puerts-node/nodejs_16
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin
         path: ~/puerts-node/**/*
@@ -179,7 +179,7 @@ jobs:
       - name: Rename
         run: |
           mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: nodejs_bin
           path: ~/puerts-node/**/*
@@ -208,7 +208,7 @@ jobs:
       - name: Rename
         run: |
           mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: nodejs_bin
           path: ~/puerts-node/**/*
@@ -233,7 +233,7 @@ jobs:
       - name: Rename
         run: |
           mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: nodejs_bin
           path: ~/puerts-node/**/*
@@ -262,7 +262,7 @@ jobs:
       - name: Rename
         run: |
           mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: nodejs_bin
           path: ~/puerts-node/**/*
