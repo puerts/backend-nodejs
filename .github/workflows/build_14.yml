@@ -13,7 +13,7 @@ env:
 jobs:
   build_windows:
     name: Windows
-    runs-on: windows-2019
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
     - name: npm install
@@ -30,14 +30,14 @@ jobs:
       run: |
         cd %GITHUB_WORKSPACE%
         call .\windows_64.cmd
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin
         path: puerts-node/**/*
         
   build_windows_32:
     name: Windows-32
-    runs-on: windows-2019
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
     - name: npm install
@@ -54,14 +54,14 @@ jobs:
       run: |
         cd %GITHUB_WORKSPACE%
         call .\windows_32.cmd
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin
         path: puerts-node/**/*
           
   build_macos:
     name: macOS
-    runs-on: macos-11
+    runs-on: macos-latest
     steps:
     - uses: maxim-lobanov/setup-xcode@v1
       with:
@@ -74,14 +74,14 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE
         sh ./macos.sh ${{env.VERSION}}
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin
         path: ~/puerts-node/**/*
 
   build_ios:
     name: iOS
-    runs-on: macos-11
+    runs-on: macos-latest
     steps:
     - uses: maxim-lobanov/setup-xcode@v1
       with:
@@ -94,7 +94,7 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE
         sh ./ios.sh ${{env.VERSION}}
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin
         path: ~/puerts-node/**/*
@@ -111,7 +111,7 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE
         sh ./linux.sh ${{env.VERSION}}
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin
         path: ~/puerts-node/**/*
@@ -133,7 +133,7 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE
           sh ./android.sh ${{env.VERSION}} arm64
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: nodejs_bin
           path: ~/puerts-node/**/*
@@ -158,7 +158,7 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE
           sh ./android.sh ${{env.VERSION}} arm
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: nodejs_bin
           path: ~/puerts-node/**/*

@@ -13,7 +13,7 @@ env:
 jobs:
   build_windows:
     name: Windows
-    runs-on: windows-2019
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
     - name: npm install
@@ -34,18 +34,18 @@ jobs:
       shell: bash
       run: |
         mv puerts-node/nodejs puerts-node/nodejs_16
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin
         path: puerts-node/**/*
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin_win_x64
         path: ~/puerts-node/**/*
         
   build_windows_32:
     name: Windows-32
-    runs-on: windows-2019
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
     - name: npm install
@@ -66,14 +66,14 @@ jobs:
       shell: bash
       run: |
         mv puerts-node/nodejs puerts-node/nodejs_16
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin
         path: puerts-node/**/*
           
   build_macos:
     name: macOS
-    runs-on: macos-11
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
     - name: npm install
@@ -86,18 +86,18 @@ jobs:
     - name: Rename
       run: |
         mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin
         path: ~/puerts-node/**/*
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin_mac_x64
         path: ~/puerts-node/**/*
           
   build_macos_arm64:
     name: macOS with apple m1
-    runs-on: macos-11
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
     - name: npm install
@@ -110,14 +110,14 @@ jobs:
     - name: Rename
       run: |
         mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin
         path: ~/puerts-node/**/*
        
   build_ios:
     name: iOS
-    runs-on: macos-11
+    runs-on: macos-latest
     steps:
     - uses: maxim-lobanov/setup-xcode@v1
       with:
@@ -133,7 +133,7 @@ jobs:
     - name: Rename
       run: |
         mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin
         path: ~/puerts-node/**/*
@@ -154,7 +154,7 @@ jobs:
       run: |
         mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
         cp $GITHUB_WORKSPACE/puer-build.json ~/puerts-node/nodejs_16
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin
         path: ~/puerts-node/**/*
@@ -179,7 +179,7 @@ jobs:
       - name: Rename
         run: |
           mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: nodejs_bin
           path: ~/puerts-node/**/*
@@ -208,7 +208,7 @@ jobs:
       - name: Rename
         run: |
           mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: nodejs_bin
           path: ~/puerts-node/**/*
@@ -233,7 +233,7 @@ jobs:
       - name: Rename
         run: |
           mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: nodejs_bin
           path: ~/puerts-node/**/*
@@ -262,7 +262,7 @@ jobs:
       - name: Rename
         run: |
           mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: nodejs_bin
           path: ~/puerts-node/**/*
