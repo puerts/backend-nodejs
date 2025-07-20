@@ -19,6 +19,12 @@ jobs:
     - name: npm install
       shell: bash
       run: npm install
+    - name: Install VS2019 Build Tools
+      shell: pwsh
+      run: choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
+    - uses: ilammy/msvc-dev-cmd@v1
+      with:
+        vsversion: '2019'
     - name: Run build script
       continue-on-error: true
       shell: cmd
@@ -32,7 +38,7 @@ jobs:
         call .\windows_64.cmd
     - uses: actions/upload-artifact@v4
       with:
-        name: nodejs_bin
+        name: nodejs_bin_windows
         path: puerts-node/**/*
         
   build_windows_32:
@@ -43,6 +49,12 @@ jobs:
     - name: npm install
       shell: bash
       run: npm install
+    - name: Install VS2019 Build Tools
+      shell: pwsh
+      run: choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
+    - uses: ilammy/msvc-dev-cmd@v1
+      with:
+        vsversion: '2019'
     - name: Run build script
       continue-on-error: true
       shell: cmd
@@ -56,7 +68,7 @@ jobs:
         call .\windows_32.cmd
     - uses: actions/upload-artifact@v4
       with:
-        name: nodejs_bin
+        name: nodejs_bin_windows_32
         path: puerts-node/**/*
           
   build_macos:
@@ -70,6 +82,10 @@ jobs:
     - name: npm install
       shell: bash
       run: npm install
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
     - name: Run build script
       run: |
         cd $GITHUB_WORKSPACE
@@ -85,18 +101,22 @@ jobs:
     steps:
     - uses: maxim-lobanov/setup-xcode@v1
       with:
-        xcode-version: '11'
+        xcode-version: '15'
     - uses: actions/checkout@v2
     - name: npm install
       shell: bash
       run: npm install
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
     - name: Run build script
       run: |
         cd $GITHUB_WORKSPACE
         sh ./ios.sh ${{env.VERSION}}
     - uses: actions/upload-artifact@v4
       with:
-        name: nodejs_bin
+        name: nodejs_bin_ios
         path: ~/puerts-node/**/*
         
   build_linux:
@@ -107,13 +127,17 @@ jobs:
     - name: npm install
       shell: bash
       run: npm install
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
     - name: Run build script
       run: |
         cd $GITHUB_WORKSPACE
         sh ./linux.sh ${{env.VERSION}}
     - uses: actions/upload-artifact@v4
       with:
-        name: nodejs_bin
+        name: nodejs_bin_linux
         path: ~/puerts-node/**/*
         
   build_android_arm64:
@@ -123,6 +147,10 @@ jobs:
       - name: npm install
         shell: bash
         run: npm install
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
       - name: Install NDK
         run: |
           cd ~
@@ -148,6 +176,10 @@ jobs:
       - name: npm install
         shell: bash
         run: npm install
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
       - name: Install NDK
         run: |
           cd ~
@@ -167,14 +199,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build_windows,build_windows_32,build_macos,build_ios,build_linux,build_android_arm64,build_android_armv7]
     steps:
-      - uses: actions/download-artifact@v1
+      - uses: actions/download-artifact@v4
         with:
-          name: nodejs_bin
           path: nodejs_bin/
           
       - name: Create Release Asset
         run: |
-          cd nodejs_bin/ && tar cvfz ../nodejs_bin_${{env.VERSION}}.tgz * && cd -
+          tar cvfz nodejs_bin_${{env.VERSION}}.tgz nodejs_bin
           
       - name: Create Release
         id: create_release

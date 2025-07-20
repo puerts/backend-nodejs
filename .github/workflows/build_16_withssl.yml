@@ -19,6 +19,12 @@ jobs:
     - name: npm install
       shell: bash
       run: npm install
+    - name: Install VS2019 Build Tools
+      shell: pwsh
+      run: choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
+    - uses: ilammy/msvc-dev-cmd@v1
+      with:
+        vsversion: '2019'
     - name: Run build script
       continue-on-error: true
       shell: cmd
@@ -47,6 +53,12 @@ jobs:
     - name: npm install
       shell: bash
       run: npm install
+    - name: Install VS2019 Build Tools
+      shell: pwsh
+      run: choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
+    - uses: ilammy/msvc-dev-cmd@v1
+      with:
+        vsversion: '2019'
     - name: Run build script
       continue-on-error: true
       shell: cmd
@@ -75,6 +87,10 @@ jobs:
     - name: npm install
       shell: bash
       run: npm install
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
     - name: Run build script
       run: |
         cd $GITHUB_WORKSPACE
@@ -95,6 +111,10 @@ jobs:
     - name: npm install
       shell: bash
       run: npm install
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
     - name: Run build script
       run: |
         cd $GITHUB_WORKSPACE
@@ -113,11 +133,15 @@ jobs:
     steps:
     - uses: maxim-lobanov/setup-xcode@v1
       with:
-        xcode-version: '12'
+        xcode-version: '15'
     - uses: actions/checkout@v2
     - name: npm install
       shell: bash
       run: npm install
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
     - name: Run build script
       run: |
         cd $GITHUB_WORKSPACE
@@ -162,6 +186,10 @@ jobs:
       - name: npm install
         shell: bash
         run: npm install
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
       - name: Install NDK
         run: |
           cd ~
@@ -191,6 +219,10 @@ jobs:
       - name: npm install
         shell: bash
         run: npm install
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
       - name: Install NDK
         run: |
           cd ~
@@ -216,6 +248,10 @@ jobs:
       - name: npm install
         shell: bash
         run: npm install
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
       - name: Install NDK
         run: |
           cd ~
@@ -245,6 +281,10 @@ jobs:
       - name: npm install
         shell: bash
         run: npm install
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
       - name: Install NDK
         run: |
           cd ~
@@ -273,7 +313,7 @@ jobs:
           
       - name: Create Release Asset
         run: |
-          cd nodejs_bin/ && tar cvfz ../nodejs_bin_${{env.VERSION}}.tgz nodejs_16 && cd -
+          tar cvfz nodejs_bin_${{env.VERSION}}.tgz nodejs_bin
           
       - name: Create Release
         id: create_release
