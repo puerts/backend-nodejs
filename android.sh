@@ -38,6 +38,22 @@ node $WORKSPACE/node-script/do-gitpatch.js -p $WORKSPACE/patchs/fix_no_handler_i
 node $WORKSPACE/node-script/add_arraybuffer_new_without_stl.js deps/v8
 node $WORKSPACE/node-script/make_v8_inspector_export.js
 
+echo "=====[Fixing V8 headers]====="
+if ! grep -q "#include <cstdint>" deps/v8/src/base/logging.h; then
+    echo "Adding cstdint include to logging.h"
+    sed -i '/^#ifndef V8_BASE_LOGGING_H_$/,/^#define V8_BASE_LOGGING_H_$/a\\n#include <cstdint>' deps/v8/src/base/logging.h
+fi
+
+if ! grep -q "#include <cstdint>" deps/v8/src/base/macros.h; then
+    echo "Adding cstdint include to macros.h"
+    sed -i '/^#ifndef V8_BASE_MACROS_H_$/,/^#define V8_BASE_MACROS_H_$/a\\n#include <cstdint>' deps/v8/src/base/macros.h
+fi
+
+if ! grep -q "#include <cstdint>" deps/v8/src/inspector/v8-string-conversions.h; then
+    echo "Adding cstdint include to v8-string-conversions.h"
+    sed -i '/^#include <string>$/a\\n#include <cstdint>' deps/v8/src/inspector/v8-string-conversions.h
+fi
+
 echo "=====[Building Node.js]====="
 
 cp $WORKSPACE/android-configure ./

@@ -19,6 +19,12 @@ jobs:
     - name: npm install
       shell: bash
       run: npm install
+    - name: Install VS2019 Build Tools
+      shell: pwsh
+      run: choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
+    - uses: ilammy/msvc-dev-cmd@v1
+      with:
+        vsversion: '2019'
     - name: Run build script
       continue-on-error: true
       shell: cmd
@@ -36,12 +42,8 @@ jobs:
         mv puerts-node/nodejs puerts-node/nodejs_16
     - uses: actions/upload-artifact@v4
       with:
-        name: nodejs_bin
+        name: nodejs_bin_windows
         path: puerts-node/**/*
-    - uses: actions/upload-artifact@v4
-      with:
-        name: nodejs_bin_win_x64
-        path: ~/puerts-node/**/*
         
   build_windows_32:
     name: Windows-32
@@ -51,6 +53,12 @@ jobs:
     - name: npm install
       shell: bash
       run: npm install
+    - name: Install VS2019 Build Tools
+      shell: pwsh
+      run: choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
+    - uses: ilammy/msvc-dev-cmd@v1
+      with:
+        vsversion: '2019'
     - name: Run build script
       continue-on-error: true
       shell: cmd
@@ -68,7 +76,7 @@ jobs:
         mv puerts-node/nodejs puerts-node/nodejs_16
     - uses: actions/upload-artifact@v4
       with:
-        name: nodejs_bin
+        name: nodejs_bin_windows_32
         path: puerts-node/**/*
           
   build_macos:
@@ -79,6 +87,10 @@ jobs:
     - name: npm install
       shell: bash
       run: npm install
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
     - name: Run build script
       run: |
         cd $GITHUB_WORKSPACE
@@ -88,11 +100,7 @@ jobs:
         mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
     - uses: actions/upload-artifact@v4
       with:
-        name: nodejs_bin
-        path: ~/puerts-node/**/*
-    - uses: actions/upload-artifact@v4
-      with:
-        name: nodejs_bin_mac_x64
+        name: nodejs_bin_macos
         path: ~/puerts-node/**/*
           
   build_macos_arm64:
@@ -103,6 +111,10 @@ jobs:
     - name: npm install
       shell: bash
       run: npm install
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
     - name: Run build script
       run: |
         cd $GITHUB_WORKSPACE
@@ -112,7 +124,7 @@ jobs:
         mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
     - uses: actions/upload-artifact@v4
       with:
-        name: nodejs_bin
+        name: nodejs_bin_macos_arm64
         path: ~/puerts-node/**/*
        
   build_ios:
@@ -121,11 +133,15 @@ jobs:
     steps:
     - uses: maxim-lobanov/setup-xcode@v1
       with:
-        xcode-version: '12'
+        xcode-version: '15'
     - uses: actions/checkout@v2
     - name: npm install
       shell: bash
       run: npm install
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
     - name: Run build script
       run: |
         cd $GITHUB_WORKSPACE
@@ -135,7 +151,7 @@ jobs:
         mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
     - uses: actions/upload-artifact@v4
       with:
-        name: nodejs_bin
+        name: nodejs_bin_ios
         path: ~/puerts-node/**/*
          
   build_linux:
@@ -146,6 +162,10 @@ jobs:
     - name: npm install
       shell: bash
       run: npm install
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
     - name: Run build script
       run: |
         cd $GITHUB_WORKSPACE
@@ -156,7 +176,7 @@ jobs:
         cp $GITHUB_WORKSPACE/puer-build.json ~/puerts-node/nodejs_16
     - uses: actions/upload-artifact@v4
       with:
-        name: nodejs_bin
+        name: nodejs_bin_linux
         path: ~/puerts-node/**/*
   
   build_android_arm64_shared:
@@ -166,6 +186,10 @@ jobs:
       - name: npm install
         shell: bash
         run: npm install
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
       - name: Install NDK
         run: |
           cd ~
@@ -181,7 +205,7 @@ jobs:
           mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
       - uses: actions/upload-artifact@v4
         with:
-          name: nodejs_bin
+          name: nodejs_bin_android_arm64_share
           path: ~/puerts-node/**/*
         
   build_android_armv7_shared:
@@ -195,6 +219,10 @@ jobs:
       - name: npm install
         shell: bash
         run: npm install
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
       - name: Install NDK
         run: |
           cd ~
@@ -210,7 +238,7 @@ jobs:
           mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
       - uses: actions/upload-artifact@v4
         with:
-          name: nodejs_bin
+          name: nodejs_bin_android_armv7_shared
           path: ~/puerts-node/**/*
 
   build_android_arm64:
@@ -220,6 +248,10 @@ jobs:
       - name: npm install
         shell: bash
         run: npm install
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
       - name: Install NDK
         run: |
           cd ~
@@ -235,7 +267,7 @@ jobs:
           mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
       - uses: actions/upload-artifact@v4
         with:
-          name: nodejs_bin
+          name: nodejs_bin_android_arm64
           path: ~/puerts-node/**/*
         
   build_android_armv7:
@@ -249,6 +281,10 @@ jobs:
       - name: npm install
         shell: bash
         run: npm install
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
       - name: Install NDK
         run: |
           cd ~
@@ -264,21 +300,20 @@ jobs:
           mv ~/puerts-node/nodejs ~/puerts-node/nodejs_16
       - uses: actions/upload-artifact@v4
         with:
-          name: nodejs_bin
+          name: nodejs_bin_android_armv7
           path: ~/puerts-node/**/*
         
   publish:
     runs-on: ubuntu-latest
     needs: [build_windows,build_windows_32,build_macos,build_macos_arm64,build_linux,build_ios,build_android_arm64,build_android_armv7,build_android_arm64_shared,build_android_armv7_shared]
     steps:
-      - uses: actions/download-artifact@v1
+      - uses: actions/download-artifact@v4
         with:
-          name: nodejs_bin
           path: nodejs_bin/
           
       - name: Create Release Asset
         run: |
-          cd nodejs_bin/ && tar cvfz ../nodejs_bin_${{env.VERSION}}.tgz nodejs_16 && cd -
+          tar cvfz nodejs_bin_${{env.VERSION}}.tgz nodejs_bin
           
       - name: Create Release
         id: create_release

@@ -18,4 +18,7 @@ index 74e9f9cc..0d52c3b0 100644
 +            'Winmm',
            ],
          }],
++        [ 'OS=="win"', {
++          'libraries': [ 'winmm.lib' ],
++        }],
          [ 'node_use_etw=="true"', {

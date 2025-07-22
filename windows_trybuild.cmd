@@ -15,4 +15,6 @@ node %~dp0\node-script\add_arraybuffer_new_without_stl.js deps/v8
 node %~dp0\node-script\make_v8_inspector_export.js
 
 echo =====[ Building Node.js ]=====
-.\vcbuild.bat dll openssl-no-asm
+set GYP_MSVS_VERSION=2019
+set GYP_DEFINES=v8_use_clang=0 v8_static_library=1
+.\vcbuild.bat dll openssl-no-asm vs2019
