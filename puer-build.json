@@ -13,10 +13,6 @@
             "ia32": ["/Lib/Win32/libnode.lib"],
             "x64": ["/Lib/Win64/libnode.lib"]
         },
-        "osx": {
-            "x64": ["/lib/macOS/libnode.108.dylib"],
-            "arm64": ["/lib/macOS_arm64/libnode.108.dylib"]
-        },
         "linux": {
             "x64": ["/lib/Linux/libnode.so.108"]
         }
@@ -25,10 +21,6 @@
         "win": {
             "ia32": ["/lib/Win32/libnode.dll"],
             "x64": ["/lib/Win64/libnode.dll"]
-        },
-        "osx": {
-            "x64": ["/lib/macOS/libnode.108.dylib"],
-            "arm64": ["/lib/macOS_arm64/libnode.108.dylib"]
         },
         "linux": {
             "x64": ["/lib/Linux/libnode.so.108"]
