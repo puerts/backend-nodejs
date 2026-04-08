@@ -1,0 +1,163 @@
+name: build nodejs v18
+
+on: 
+  workflow_dispatch:
+    inputs:
+      tag_date:
+        description: 'tag date'     
+        required: true
+
+env:
+  VERSION: 18.20.3
+
+jobs:
+  build_windows:
+    name: Windows
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: npm install
+      shell: bash
+      run: npm install
+    - name: Run build script
+      continue-on-error: true
+      shell: cmd
+      run: |
+        cd %GITHUB_WORKSPACE%
+        call .\windows_trybuild.cmd ${{env.VERSION}}
+    - name: Run upload script
+      shell: cmd
+      run: |
+        cd %GITHUB_WORKSPACE%
+        call .\windows_64.cmd
+    - name: Rename
+      shell: bash
+      run: |
+        mv puerts-node/nodejs puerts-node/nodejs_18
+    - uses: actions/upload-artifact@v4
+      with:
+        name: nodejs_bin_win_x64
+        path: puerts-node/**/*
+        
+  build_windows_32:
+    name: Windows-32
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: npm install
+      shell: bash
+      run: npm install
+    - name: Run build script
+      continue-on-error: true
+      shell: cmd
+      run: |
+        cd %GITHUB_WORKSPACE%
+        call .\windows_trybuild.cmd ${{env.VERSION}}
+    - name: Run upload script
+      shell: cmd
+      run: |
+        cd %GITHUB_WORKSPACE%
+        call .\windows_32.cmd
+    - name: Rename
+      shell: bash
+      run: |
+        mv puerts-node/nodejs puerts-node/nodejs_18
+    - uses: actions/upload-artifact@v4
+      with:
+        name: nodejs_bin_win_x86
+        path: puerts-node/**/*
+          
+  build_macos:
+    name: macOS
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: npm install
+      shell: bash
+      run: npm install
+    - name: Run build script
+      run: |
+        cd $GITHUB_WORKSPACE
+        sh ./macos.sh ${{env.VERSION}}
+    - name: Rename
+      run: |
+        mv ~/puerts-node/nodejs ~/puerts-node/nodejs_18
+    - uses: actions/upload-artifact@v4
+      with:
+        name: nodejs_bin_mac_x64
+        path: ~/puerts-node/**/*
+          
+  build_macos_arm64:
+    name: macOS with apple silicon
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: npm install
+      shell: bash
+      run: npm install
+    - name: Run build script
+      run: |
+        cd $GITHUB_WORKSPACE
+        sh ./macos_arm64.sh ${{env.VERSION}}
+    - name: Rename
+      run: |
+        mv ~/puerts-node/nodejs ~/puerts-node/nodejs_18
+    - uses: actions/upload-artifact@v4
+      with:
+        name: nodejs_bin_mac_arm64
+        path: ~/puerts-node/**/*
+         
+  build_linux:
+    name: linux
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: npm install
+      shell: bash
+      run: npm install
+    - name: Run build script
+      run: |
+        cd $GITHUB_WORKSPACE
+        sh ./linux.sh ${{env.VERSION}}
+    - name: Rename
+      run: |
+        mv ~/puerts-node/nodejs ~/puerts-node/nodejs_18
+        cp $GITHUB_WORKSPACE/puer-build.json ~/puerts-node/nodejs_18
+    - uses: actions/upload-artifact@v4
+      with:
+        name: nodejs_bin_linux_x64
+        path: ~/puerts-node/**/*
+        
+  publish:
+    runs-on: ubuntu-latest
+    needs: [build_windows,build_windows_32,build_macos,build_macos_arm64,build_linux]
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: nodejs_bin/
+          merge-multiple: true
+          
+      - name: Create Release Asset
+        run: |
+          cd nodejs_bin/ && tar cvfz ../nodejs_bin_${{env.VERSION}}.tgz nodejs_18 && cd -
+          
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: NodeJS_${{env.VERSION}}_${{ github.event.inputs.tag_date }}
+          release_name: NodeJS_${{env.VERSION}}_${{ github.event.inputs.tag_date }}
+          draft: false
+          prerelease: false
+          
+      - name: Upload nodejs_bin
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./nodejs_bin_${{env.VERSION}}.tgz
+          asset_name: nodejs_bin_${{env.VERSION}}.tgz
+          asset_content_type: application/tgz
