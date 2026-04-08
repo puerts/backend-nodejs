@@ -38,5 +38,5 @@ mkdir -p ../puerts-node/nodejs/lib/Linux/
 cp out/Release/libnode.so.* ../puerts-node/nodejs/lib/Linux/
 cd ../puerts-node/nodejs/lib/Linux/
 SOFILE=$(ls libnode.so.* | head -1)
-ln -sf $SOFILE libnode.so
+cp $SOFILE libnode.so
 cd -
