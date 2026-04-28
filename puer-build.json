@@ -19,8 +19,8 @@
     },
     "copy-libraries": {
         "win": {
-            "ia32": ["/lib/Win32/libnode.dll"],
-            "x64": ["/lib/Win64/libnode.dll"]
+            "ia32": ["/lib/Win32/libnode.dll", "/lib/Win32/node.exe"],
+            "x64": ["/lib/Win64/libnode.dll", "/lib/Win64/node.exe"]
         },
         "linux": {
             "x64": ["/lib/Linux/libnode.so.108"]

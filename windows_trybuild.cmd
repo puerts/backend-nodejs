@@ -16,3 +16,6 @@ node %~dp0\node-script\make_v8_inspector_export.js
 
 echo =====[ Building Node.js ]=====
 .\vcbuild.bat dll openssl-no-asm
+
+echo =====[ Building NODE.EXE forwarder for native addons ]=====
+node %WORKSPACE%\node-script\make_node_exe_forwarder.js %HOMEPATH%\node\out\Release\libnode.dll %HOMEPATH%\node\out\Release\node.exe

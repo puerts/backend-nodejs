@@ -9,3 +9,4 @@ copy node\out\Release\libnode.dll .\puerts-node\nodejs\Lib\Win64\
 copy node\out\Release\libnode.exp .\puerts-node\nodejs\Lib\Win64\
 copy node\out\Release\libnode.lib .\puerts-node\nodejs\Lib\Win64\
 copy node\out\Release\libnode.pdb .\puerts-node\nodejs\Lib\Win64\
+copy node\out\Release\node.exe .\puerts-node\nodejs\Lib\Win64\
