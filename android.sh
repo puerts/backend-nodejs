@@ -40,8 +40,18 @@ node $WORKSPACE/node-script/make_v8_inspector_export.js
 
 echo "=====[Building Node.js]====="
 
+MAJOR_VER=$(echo $VERSION | cut -d. -f1)
+if [ "$MAJOR_VER" -ge 26 ]; then
+  if [ -f "android-patches/trap-handler.h.patch" ]; then
+    patch -f ./deps/v8/src/trap-handler/trap-handler.h < ./android-patches/trap-handler.h.patch || true
+  fi
+  NDK_DIR=${NDK_PATH:-~/android-ndk-r27c}
+else
+  NDK_DIR=${NDK_PATH:-~/android-ndk-r21b}
+fi
+
 cp $WORKSPACE/android-configure ./
-./android-configure ~/android-ndk-r21b $2 24 $WITH_SSL
+./android-configure $NDK_DIR $2 24 $WITH_SSL
 make -j8
 
 mkdir -p ../puerts-node/nodejs/lib/Android/$OUTPUT/

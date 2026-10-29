@@ -1,0 +1,58 @@
+diff --git a/node.gyp b/node.gyp
+index 5334b8a..31a851c 100644
+--- a/node.gyp
++++ b/node.gyp
+@@ -1092,6 +1092,18 @@
+         },
+       ],
+     }, # node_base
++    {
++      'target_name': 'libnode_stub',
++      'type': '<(node_lib_type)',
++      'include_dirs': [
++        'src',
++        'deps/v8/include',
++        'deps/uv/include'
++      ],
++      'sources': [
++        'src/node_snapshot_stub.cc',
++      ]
++    },
+     {
+       'target_name': '<(node_lib_target_name)',
+       'type': '<(node_lib_type)',
+diff --git a/node.gypi b/node.gypi
+index 9eb972a..872a2cb 100644
+--- a/node.gypi
++++ b/node.gypi
+@@ -408,7 +408,7 @@
+             './deps/openssl/openssl.gyp:openssl',
+ 
+             # For tests
+-            './deps/openssl/openssl.gyp:openssl-cli',
++            # './deps/openssl/openssl.gyp:openssl-cli',
+           ],
+           'conditions': [
+             # -force_load or --whole-archive are not applicable for
+diff --git a/tools/gyp/pylib/gyp/generator/make.py b/tools/gyp/pylib/gyp/generator/make.py
+index 16b6f4e..5e758c9 100644
+--- a/tools/gyp/pylib/gyp/generator/make.py
++++ b/tools/gyp/pylib/gyp/generator/make.py
+@@ -1885,7 +1885,7 @@ $(obj).$(TOOLSET)/$(TARGET)/%%.o: $(obj)/%%%s FORCE_DO_CMD
+                     "Spaces in alink input filenames not supported (%s)" % link_dep
+                 )
+             if (
+-                self.flavor not in ("mac", "openbsd", "netbsd", "win")
++                self.flavor not in ("mac", "openbsd", "netbsd", "win", "android")
+                 and not self.is_standalone_static_library
+             ):
+                 if self.flavor in ("linux", "android", "openharmony"):
+@@ -1991,7 +1991,7 @@ $(obj).$(TOOLSET)/$(TARGET)/%%.o: $(obj)/%%%s FORCE_DO_CMD
+         # 1) They need to install to the build dir or "product" dir.
+         # 2) They get shortcuts for building (e.g. "make chrome").
+         # 3) They are part of "make all".
+-        if self.type in self._INSTALLABLE_TARGETS or self.is_standalone_static_library:
++        if (self.type in self._INSTALLABLE_TARGETS and (self.flavor != "android" or self.type != "executable")) or self.is_standalone_static_library:
+             if self.type == "shared_library":
+                 file_desc = "shared library"
+             elif self.type == "static_library":

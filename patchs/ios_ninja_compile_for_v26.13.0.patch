@@ -1,0 +1,49 @@
+diff --git a/node.gyp b/node.gyp
+index 5334b8a..31a851c 100644
+--- a/node.gyp
++++ b/node.gyp
+@@ -1092,6 +1092,18 @@
+         },
+       ],
+     }, # node_base
++    {
++      'target_name': 'libnode_stub',
++      'type': '<(node_lib_type)',
++      'include_dirs': [
++        'src',
++        'deps/v8/include',
++        'deps/uv/include'
++      ],
++      'sources': [
++        'src/node_snapshot_stub.cc',
++      ]
++    },
+     {
+       'target_name': '<(node_lib_target_name)',
+       'type': '<(node_lib_type)',
+diff --git a/node.gypi b/node.gypi
+index 9eb972a..872a2cb 100644
+--- a/node.gypi
++++ b/node.gypi
+@@ -408,7 +408,7 @@
+             './deps/openssl/openssl.gyp:openssl',
+ 
+             # For tests
+-            './deps/openssl/openssl.gyp:openssl-cli',
++            # './deps/openssl/openssl.gyp:openssl-cli',
+           ],
+           'conditions': [
+             # -force_load or --whole-archive are not applicable for
+diff --git a/tools/gyp/pylib/gyp/generator/ninja.py b/tools/gyp/pylib/gyp/generator/ninja.py
+index 3ceaf47..5cd88d2 100644
+--- a/tools/gyp/pylib/gyp/generator/ninja.py
++++ b/tools/gyp/pylib/gyp/generator/ninja.py
+@@ -2837,7 +2837,7 @@ def GenerateOutputForConfig(target_list, target_dicts, data, params, config_name
+             if name != target.FinalOutput() and spec["toolset"] == "target":
+                 target_short_names.setdefault(name, []).append(target)
+             target_outputs[qualified_target] = target
+-            if qualified_target in all_targets:
++            if qualified_target in all_targets and 'executable' != target.type:
+                 all_outputs.add(target.FinalOutput())
+             non_empty_target_names.add(name)
+         else:

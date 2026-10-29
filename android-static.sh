@@ -42,32 +42,46 @@ node $WORKSPACE/node-script/make_v8_inspector_export.js
 
 echo "=====[Building Node.js]====="
 
+MAJOR_VER=$(echo $VERSION | cut -d. -f1)
+if [ "$MAJOR_VER" -ge 26 ]; then
+  if [ -f "android-patches/trap-handler.h.patch" ]; then
+    patch -f ./deps/v8/src/trap-handler/trap-handler.h < ./android-patches/trap-handler.h.patch || true
+  fi
+  NDK_DIR=${NDK_PATH:-~/android-ndk-r27c}
+else
+  NDK_DIR=${NDK_PATH:-~/android-ndk-r21b}
+fi
+
 cp $WORKSPACE/android-configure-static ./
-./android-configure-static ~/android-ndk-r21b $2 24 $WITH_SSL
+./android-configure-static $NDK_DIR $2 24 $WITH_SSL
 make -j8
 
 mkdir -p ../puerts-node/nodejs/lib/Android/$OUTPUT/
 
-cp \
-  out/Release/obj.target/deps/histogram/libhistogram.a \
-  out/Release/obj.target/deps/uvwasi/libuvwasi.a \
-  out/Release/obj.target/libnode.a \
-  out/Release/obj.target/libnode_stub.a \
-  out/Release/obj.target/tools/v8_gypfiles/libv8_snapshot.a \
-  out/Release/obj.target/tools/v8_gypfiles/libv8_libplatform.a \
-  out/Release/obj.target/deps/zlib/libzlib.a \
-  out/Release/obj.target/deps/llhttp/libllhttp.a \
-  out/Release/obj.target/deps/cares/libcares.a \
-  out/Release/obj.target/deps/uv/libuv.a \
-  out/Release/obj.target/deps/nghttp2/libnghttp2.a \
-  out/Release/obj.target/deps/brotli/libbrotli.a \
-  out/Release/obj.target/deps/openssl/libopenssl.a \
-  out/Release/obj.target/tools/v8_gypfiles/libv8_base_without_compiler.a \
-  out/Release/obj.target/tools/v8_gypfiles/libv8_libbase.a \
-  out/Release/obj.target/tools/v8_gypfiles/libv8_zlib.a \
-  out/Release/obj.target/tools/v8_gypfiles/libv8_compiler.a \
-  out/Release/obj.target/tools/v8_gypfiles/libv8_initializers.a \
-  ../puerts-node/nodejs/lib/Android/$OUTPUT/
+if [ "$MAJOR_VER" -ge 26 ]; then
+  find out/Release/obj.target -name "*.a" -exec cp {} ../puerts-node/nodejs/lib/Android/$OUTPUT/ \;
+else
+  cp \
+    out/Release/obj.target/deps/histogram/libhistogram.a \
+    out/Release/obj.target/deps/uvwasi/libuvwasi.a \
+    out/Release/obj.target/libnode.a \
+    out/Release/obj.target/libnode_stub.a \
+    out/Release/obj.target/tools/v8_gypfiles/libv8_snapshot.a \
+    out/Release/obj.target/tools/v8_gypfiles/libv8_libplatform.a \
+    out/Release/obj.target/deps/zlib/libzlib.a \
+    out/Release/obj.target/deps/llhttp/libllhttp.a \
+    out/Release/obj.target/deps/cares/libcares.a \
+    out/Release/obj.target/deps/uv/libuv.a \
+    out/Release/obj.target/deps/nghttp2/libnghttp2.a \
+    out/Release/obj.target/deps/brotli/libbrotli.a \
+    out/Release/obj.target/deps/openssl/libopenssl.a \
+    out/Release/obj.target/tools/v8_gypfiles/libv8_base_without_compiler.a \
+    out/Release/obj.target/tools/v8_gypfiles/libv8_libbase.a \
+    out/Release/obj.target/tools/v8_gypfiles/libv8_zlib.a \
+    out/Release/obj.target/tools/v8_gypfiles/libv8_compiler.a \
+    out/Release/obj.target/tools/v8_gypfiles/libv8_initializers.a \
+    ../puerts-node/nodejs/lib/Android/$OUTPUT/
+fi
 
 function version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
 function version_lt() { test "$(echo "$@" | tr " " "\n" | sort -rV | head -n 1)" != "$1"; }

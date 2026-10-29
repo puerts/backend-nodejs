@@ -17,7 +17,16 @@ node $WORKSPACE/node-script/make_v8_inspector_export.js
 
 echo "=====[Building Node.js]====="
 
-CC_host="clang" CXX_host="clang++" CC_target="clang -arch arm64" CXX_target="clang++ -arch arm64" CC="clang -arch arm64" CXX="clang++ -arch arm64" ./configure --shared --cross-compiling --dest-cpu=arm64
+MAJOR_VER=$(echo $VERSION | cut -d. -f1)
+if [ "$MAJOR_VER" -ge 26 ]; then
+  if [ "$(uname -m)" = "arm64" ]; then
+    ./configure --shared --dest-cpu=arm64 --v8-disable-temporal-support --without-ffi
+  else
+    CC_host="clang" CXX_host="clang++" CC_target="clang -arch arm64" CXX_target="clang++ -arch arm64" CC="clang -arch arm64" CXX="clang++ -arch arm64" ./configure --shared --cross-compiling --dest-cpu=arm64 --v8-disable-temporal-support --without-ffi
+  fi
+else
+  CC_host="clang" CXX_host="clang++" CC_target="clang -arch arm64" CXX_target="clang++ -arch arm64" CC="clang -arch arm64" CXX="clang++ -arch arm64" ./configure --shared --cross-compiling --dest-cpu=arm64
+fi
 make -j8
 
 mkdir -p ../puerts-node/nodejs/include

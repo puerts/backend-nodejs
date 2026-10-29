@@ -39,11 +39,27 @@ export RANLIB="$(xcrun -sdk iphoneos -find ranlib)"
 
 export SDK=`xcrun --sdk iphoneos --show-sdk-path`
 
-export CXXFLAGS="-std=c++17 -O -arch arm64 -isysroot $SDK" 
+MAJOR_VER=$(echo $VERSION | cut -d. -f1)
+if [ "$MAJOR_VER" -ge 26 ]; then
+  CXX_STD="c++20"
+  EXTRA_CONFIGURE_FLAGS="--v8-disable-temporal-support --without-ffi --without-lief --without-sqlite --without-amaro --disable-single-executable-application"
+  if [ "$(uname -m)" = "arm64" ]; then
+    HOST_ARCH="arm64"
+    HOST_ARCH_DEF="-DV8_HOST_ARCH_ARM64"
+  else
+    HOST_ARCH_DEF="-DV8_HOST_ARCH_X64"
+  fi
+else
+  CXX_STD="c++17"
+  EXTRA_CONFIGURE_FLAGS=""
+  HOST_ARCH_DEF="-DV8_HOST_ARCH_X64"
+fi
+
+export CXXFLAGS="-std=$CXX_STD -O -arch arm64 -isysroot $SDK" 
 export CFLAGS="-O -arch arm64 -isysroot $SDK" 
 #export LDFLAGS="-O -arch arm64 -isysroot $SDK" 
 
-export CXXFLAGS_host="-DV8_HOST_ARCH_X64 -std=c++17" 
+export CXXFLAGS_host="$HOST_ARCH_DEF -std=$CXX_STD" 
 export CFLAGS_host="" 
 
 GYP_DEFINES="target_arch=arm64"
@@ -52,7 +68,7 @@ GYP_DEFINES+=" ios_target_arch=arm64"
 GYP_DEFINES+=" host_os=$HOST_OS OS=ios"
 export GYP_DEFINES
 
-if [ "$WITHSSL" == "" ]; then
+if [ "$WITH_SSL" == "" ] && [ "$WITHSSL" == "" ]; then
   echo "=========================building without-ssl version================================="
   ./configure \
       --ninja \
@@ -62,6 +78,7 @@ if [ "$WITHSSL" == "" ]; then
       --without-ssl \
       --enable-static \
       --with-intl=none \
+      $EXTRA_CONFIGURE_FLAGS \
       --cross-compiling
 else
   echo "=========================building with-ssl version================================="
@@ -73,6 +90,7 @@ else
       --openssl-no-asm \
       --enable-static \
       --with-intl=none \
+      $EXTRA_CONFIGURE_FLAGS \
       --cross-compiling
 fi
 
@@ -89,26 +107,30 @@ echo "=====[Archive libnode]====="
 #cp -r deps/v8/include ../puerts-node/nodejs/iosinc/deps/v8
 
 mkdir -p ../puerts-node/nodejs/lib/iOS/
-cp \
-  out/Release/obj/deps/histogram/libhistogram.a \
-  out/Release/obj/deps/uvwasi/libuvwasi.a \
-  out/Release/obj/libnode.a \
-  out/Release/obj/libnode_stub.a \
-  out/Release/obj/tools/v8_gypfiles/libv8_snapshot.a \
-  out/Release/obj/tools/v8_gypfiles/libv8_libplatform.a \
-  out/Release/obj/deps/zlib/libzlib.a \
-  out/Release/obj/deps/llhttp/libllhttp.a \
-  out/Release/obj/deps/cares/libcares.a \
-  out/Release/obj/deps/uv/libuv.a \
-  out/Release/obj/deps/nghttp2/libnghttp2.a \
-  out/Release/obj/deps/brotli/libbrotli.a \
-  out/Release/obj/deps/openssl/libopenssl.a \
-  out/Release/obj/tools/v8_gypfiles/libv8_base_without_compiler.a \
-  out/Release/obj/tools/v8_gypfiles/libv8_libbase.a \
-  out/Release/obj/tools/v8_gypfiles/libv8_zlib.a \
-  out/Release/obj/tools/v8_gypfiles/libv8_compiler.a \
-  out/Release/obj/tools/v8_gypfiles/libv8_initializers.a \
-  ../puerts-node/nodejs/lib/iOS/
+if [ "$MAJOR_VER" -ge 26 ]; then
+  find out/Release/obj -name "*.a" -exec cp {} ../puerts-node/nodejs/lib/iOS/ \;
+else
+  cp \
+    out/Release/obj/deps/histogram/libhistogram.a \
+    out/Release/obj/deps/uvwasi/libuvwasi.a \
+    out/Release/obj/libnode.a \
+    out/Release/obj/libnode_stub.a \
+    out/Release/obj/tools/v8_gypfiles/libv8_snapshot.a \
+    out/Release/obj/tools/v8_gypfiles/libv8_libplatform.a \
+    out/Release/obj/deps/zlib/libzlib.a \
+    out/Release/obj/deps/llhttp/libllhttp.a \
+    out/Release/obj/deps/cares/libcares.a \
+    out/Release/obj/deps/uv/libuv.a \
+    out/Release/obj/deps/nghttp2/libnghttp2.a \
+    out/Release/obj/deps/brotli/libbrotli.a \
+    out/Release/obj/deps/openssl/libopenssl.a \
+    out/Release/obj/tools/v8_gypfiles/libv8_base_without_compiler.a \
+    out/Release/obj/tools/v8_gypfiles/libv8_libbase.a \
+    out/Release/obj/tools/v8_gypfiles/libv8_zlib.a \
+    out/Release/obj/tools/v8_gypfiles/libv8_compiler.a \
+    out/Release/obj/tools/v8_gypfiles/libv8_initializers.a \
+    ../puerts-node/nodejs/lib/iOS/
+fi
 
 function version_gt() { test "$(echo "$@" | tr " " "\n" | sort -V | head -n 1)" != "$1"; }
 function version_lt() { test "$(echo "$@" | tr " " "\n" | sort -rV | head -n 1)" != "$1"; }
