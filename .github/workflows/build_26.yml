@@ -1,0 +1,266 @@
+name: build nodejs v26
+
+on: 
+  workflow_dispatch:
+    inputs:
+      tag_date:
+        description: 'tag date'     
+        required: true
+
+env:
+  VERSION: 26.13.0
+
+permissions:
+  contents: write
+
+jobs:
+  build_windows:
+    name: Windows
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: npm install
+      shell: bash
+      run: npm install
+    - name: Run build script
+      continue-on-error: true
+      shell: cmd
+      run: |
+        cd %GITHUB_WORKSPACE%
+        call .\windows_trybuild.cmd ${{env.VERSION}}
+    - name: Run upload script
+      shell: cmd
+      run: |
+        cd %GITHUB_WORKSPACE%
+        call .\windows_64.cmd
+    - name: Rename
+      shell: bash
+      run: |
+        mv ~/puerts-node/nodejs ~/puerts-node/nodejs_26
+    - uses: actions/upload-artifact@v4
+      with:
+        name: nodejs_bin_win_x64
+        path: ~/puerts-node/**/*
+          
+  build_macos:
+    name: macOS
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: npm install
+      shell: bash
+      run: npm install
+    - name: Run build script
+      run: |
+        cd $GITHUB_WORKSPACE
+        sh ./macos.sh ${{env.VERSION}}
+    - name: Rename
+      run: |
+        mv ~/puerts-node/nodejs ~/puerts-node/nodejs_26
+    - uses: actions/upload-artifact@v4
+      with:
+        name: nodejs_bin_mac_x64
+        path: ~/puerts-node/**/*
+          
+  build_macos_arm64:
+    name: macOS with apple m1
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: npm install
+      shell: bash
+      run: npm install
+    - name: Run build script
+      run: |
+        cd $GITHUB_WORKSPACE
+        sh ./macos_arm64.sh ${{env.VERSION}}
+    - name: Rename
+      run: |
+        mv ~/puerts-node/nodejs ~/puerts-node/nodejs_26
+    - uses: actions/upload-artifact@v4
+      with:
+        name: nodejs_bin_mac_arm64
+        path: ~/puerts-node/**/*
+       
+  build_ios:
+    name: iOS
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: npm install
+      shell: bash
+      run: npm install
+    - name: Run build script
+      run: |
+        cd $GITHUB_WORKSPACE
+        bash ./ios.sh ${{env.VERSION}}
+    - name: Rename
+      run: |
+        mv ~/puerts-node/nodejs ~/puerts-node/nodejs_26
+    - uses: actions/upload-artifact@v4
+      with:
+        name: nodejs_bin_ios
+        path: ~/puerts-node/**/*
+         
+  build_linux:
+    name: linux
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Install Clang 19
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y clang-19 libc++-19-dev libc++abi-19-dev
+    - uses: actions/checkout@v4
+    - name: npm install
+      shell: bash
+      run: npm install
+    - name: Run build script
+      run: |
+        cd $GITHUB_WORKSPACE
+        bash ./linux.sh ${{env.VERSION}}
+    - name: Rename
+      run: |
+        mv ~/puerts-node/nodejs ~/puerts-node/nodejs_26
+        cp $GITHUB_WORKSPACE/puer-build_26.json ~/puerts-node/nodejs_26/puer-build.json
+    - uses: actions/upload-artifact@v4
+      with:
+        name: nodejs_bin_linux
+        path: ~/puerts-node/**/*
+  
+  build_android_arm64_shared:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Install GCC 13
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-13 g++-13 unzip
+      - uses: actions/checkout@v4
+      - name: npm install
+        shell: bash
+        run: npm install
+      - name: Install NDK
+        run: |
+          cd ~
+          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r27c-linux.zip
+          unzip -q NDK
+      - name: Build
+        run: |
+          cd $GITHUB_WORKSPACE
+          bash ./android.sh ${{env.VERSION}} arm64
+      - name: Rename
+        run: |
+          mv ~/puerts-node/nodejs ~/puerts-node/nodejs_26
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nodejs_bin_android_arm64_shared
+          path: ~/puerts-node/**/*
+        
+  build_android_armv7_shared:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Install gcc-multilib g++-multilib
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-13 g++-13 gcc-13-multilib g++-13-multilib gcc-multilib g++-multilib unzip
+      - uses: actions/checkout@v4
+      - name: npm install
+        shell: bash
+        run: npm install
+      - name: Install NDK
+        run: |
+          cd ~
+          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r27c-linux.zip
+          unzip -q NDK
+      - name: Build
+        run: |
+          cd $GITHUB_WORKSPACE
+          bash ./android.sh ${{env.VERSION}} arm
+      - name: Rename
+        run: |
+          mv ~/puerts-node/nodejs ~/puerts-node/nodejs_26
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nodejs_bin_android_armv7_shared
+          path: ~/puerts-node/**/*
+
+  build_android_arm64:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Install GCC 13
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-13 g++-13 unzip
+      - uses: actions/checkout@v4
+      - name: npm install
+        shell: bash
+        run: npm install
+      - name: Install NDK
+        run: |
+          cd ~
+          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r27c-linux.zip
+          unzip -q NDK
+      - name: Build
+        run: |
+          cd $GITHUB_WORKSPACE
+          bash ./android-static.sh ${{env.VERSION}} arm64
+      - name: Rename
+        run: |
+          mv ~/puerts-node/nodejs ~/puerts-node/nodejs_26
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nodejs_bin_android_arm64
+          path: ~/puerts-node/**/*
+        
+  build_android_armv7:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Install gcc-multilib g++-multilib
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-13 g++-13 gcc-13-multilib g++-13-multilib gcc-multilib g++-multilib unzip
+      - uses: actions/checkout@v4
+      - name: npm install
+        shell: bash
+        run: npm install
+      - name: Install NDK
+        run: |
+          cd ~
+          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r27c-linux.zip
+          unzip -q NDK
+      - name: Build
+        run: |
+          cd $GITHUB_WORKSPACE
+          bash ./android-static.sh ${{env.VERSION}} arm
+      - name: Rename
+        run: |
+          mv ~/puerts-node/nodejs ~/puerts-node/nodejs_26
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nodejs_bin_android_armv7
+          path: ~/puerts-node/**/*
+        
+  publish:
+    runs-on: ubuntu-latest
+    needs: [build_windows,build_macos,build_macos_arm64,build_linux,build_ios,build_android_arm64,build_android_armv7,build_android_arm64_shared,build_android_armv7_shared]
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: nodejs_bin_*
+          path: nodejs_bin/
+          merge-multiple: true
+          
+      - name: Create Release Asset
+        run: |
+          cd nodejs_bin/ && tar cvfz ../nodejs_bin_${{env.VERSION}}.tgz nodejs_26 && cd -
+          
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: NodeJS_${{env.VERSION}}_${{ github.event.inputs.tag_date }}
+          name: NodeJS_${{env.VERSION}}_${{ github.event.inputs.tag_date }}
+          files: ./nodejs_bin_${{env.VERSION}}.tgz
+          draft: false
+          prerelease: false
