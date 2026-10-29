@@ -141,7 +141,7 @@ jobs:
       - name: Install NDK
         run: |
           cd ~
-          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r28c-linux.zip
+          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r29-linux.zip
           unzip -q NDK
       - name: Build
         run: |
@@ -169,7 +169,7 @@ jobs:
       - name: Install NDK
         run: |
           cd ~
-          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r28c-linux.zip
+          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r29-linux.zip
           unzip -q NDK
       - name: Build
         run: |
@@ -197,7 +197,7 @@ jobs:
       - name: Install NDK
         run: |
           cd ~
-          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r28c-linux.zip
+          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r29-linux.zip
           unzip -q NDK
       - name: Build
         run: |
@@ -225,7 +225,7 @@ jobs:
       - name: Install NDK
         run: |
           cd ~
-          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r28c-linux.zip
+          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r29-linux.zip
           unzip -q NDK
       - name: Build
         run: |

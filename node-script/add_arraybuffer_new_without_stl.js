@@ -30,6 +30,7 @@ fs.writeFileSync(v8_h_path, v8_h_context.slice(0, v8_h_insert_pos) + v8_h_insert
 let api_cc_path = process.argv[2] + '/src/api/api.cc';
 
 let api_cc_insert_code = `
+#include "include/v8-version.h"
 namespace v8
 {
 Local<ArrayBuffer> ArrayBuffer_New_Without_Stl(Isolate* isolate, 

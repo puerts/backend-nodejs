@@ -48,7 +48,7 @@ if [ "$MAJOR_VER" -ge 26 ]; then
   if [ -f "android-patches/trap-handler.h.patch" ]; then
     patch -f ./deps/v8/src/trap-handler/trap-handler.h < ./android-patches/trap-handler.h.patch || true
   fi
-  NDK_DIR=${NDK_PATH:-~/android-ndk-r28c}
+  NDK_DIR=${NDK_PATH:-~/android-ndk-r29}
 else
   NDK_DIR=${NDK_PATH:-~/android-ndk-r21b}
 fi
@@ -60,7 +60,7 @@ make -j8
 mkdir -p ../puerts-node/nodejs/lib/Android/$OUTPUT/
 
 if [ "$MAJOR_VER" -ge 26 ]; then
-  find out/Release/obj.target -name "*.a" -exec cp {} ../puerts-node/nodejs/lib/Android/$OUTPUT/ \;
+  find out/Release/obj.target -name "*.a" ! -name "libgtest*.a" ! -name "libtorque*.a" -exec cp {} ../puerts-node/nodejs/lib/Android/$OUTPUT/ \;
 else
   cp \
     out/Release/obj.target/deps/histogram/libhistogram.a \

@@ -62,6 +62,11 @@ export CXXFLAGS="-std=$CXX_STD -O -arch arm64 -isysroot $SDK"
 export CFLAGS="-O -arch arm64 -isysroot $SDK" 
 #export LDFLAGS="-O -arch arm64 -isysroot $SDK" 
 
+if [ "$MAJOR_VER" -ge 26 ]; then
+  export CC="$CC -arch arm64 -isysroot $SDK"
+  export CXX="$CXX -arch arm64 -isysroot $SDK"
+fi
+
 export CXXFLAGS_host="$HOST_ARCH_DEF -std=$CXX_STD" 
 export CFLAGS_host="" 
 
@@ -111,7 +116,7 @@ echo "=====[Archive libnode]====="
 
 mkdir -p ../puerts-node/nodejs/lib/iOS/
 if [ "$MAJOR_VER" -ge 26 ]; then
-  find out/Release/obj -name "*.a" -exec cp {} ../puerts-node/nodejs/lib/iOS/ \;
+  find out/Release/obj -name "*.a" ! -name "libgtest*.a" ! -name "libtorque*.a" -exec cp {} ../puerts-node/nodejs/lib/iOS/ \;
 else
   cp \
     out/Release/obj/deps/histogram/libhistogram.a \
