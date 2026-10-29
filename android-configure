@@ -84,8 +84,10 @@ GYP_DEFINES+=" android_ndk_path=$NDK_PATH"
 export GYP_DEFINES
 
 EXTRA_CONFIGURE_FLAGS=""
+SNAPSHOT_FLAG="--without-snapshot"
 if grep -q "v8-disable-temporal-support" configure.py 2>/dev/null; then
-  EXTRA_CONFIGURE_FLAGS="--v8-disable-temporal-support --without-ffi --without-lief --without-sqlite --without-amaro --disable-single-executable-application"
+  SNAPSHOT_FLAG="--without-node-snapshot"
+  EXTRA_CONFIGURE_FLAGS="--v8-disable-temporal-support --without-ffi --without-lief --without-sqlite --without-amaro --disable-single-executable-application -Dandroid_ndk_path=$NDK_PATH"
   export AR=$TOOLCHAIN/bin/llvm-ar
 fi
 
@@ -94,7 +96,7 @@ if [ -f "configure" ]; then
     ./configure \
         --dest-cpu=$DEST_CPU \
         --dest-os=android \
-        --without-snapshot \
+        $SNAPSHOT_FLAG \
         --without-ssl \
         --partly-static \
         --with-intl=none \
@@ -105,7 +107,7 @@ if [ -f "configure" ]; then
     ./configure \
         --dest-cpu=$DEST_CPU \
         --dest-os=android \
-        --without-snapshot \
+        $SNAPSHOT_FLAG \
         --openssl-no-asm \
         --partly-static \
         --with-intl=none \

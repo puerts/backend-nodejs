@@ -1,3 +1,4 @@
+set -e
 [ -z "$GITHUB_WORKSPACE" ] && GITHUB_WORKSPACE="$( cd "$( dirname "$0" )"/.. && pwd )"
 WORKSPACE=$GITHUB_WORKSPACE
 HOMEPATH=~
@@ -42,6 +43,7 @@ export SDK=`xcrun --sdk iphoneos --show-sdk-path`
 MAJOR_VER=$(echo $VERSION | cut -d. -f1)
 if [ "$MAJOR_VER" -ge 26 ]; then
   CXX_STD="c++20"
+  SNAPSHOT_FLAG="--without-node-snapshot"
   EXTRA_CONFIGURE_FLAGS="--v8-disable-temporal-support --without-ffi --without-lief --without-sqlite --without-amaro --disable-single-executable-application"
   if [ "$(uname -m)" = "arm64" ]; then
     HOST_ARCH="arm64"
@@ -51,6 +53,7 @@ if [ "$MAJOR_VER" -ge 26 ]; then
   fi
 else
   CXX_STD="c++17"
+  SNAPSHOT_FLAG="--without-snapshot"
   EXTRA_CONFIGURE_FLAGS=""
   HOST_ARCH_DEF="-DV8_HOST_ARCH_X64"
 fi
@@ -74,7 +77,7 @@ if [ "$WITH_SSL" == "" ] && [ "$WITHSSL" == "" ]; then
       --ninja \
       --dest-cpu=arm64 \
       --dest-os=ios \
-      --without-snapshot \
+      $SNAPSHOT_FLAG \
       --without-ssl \
       --enable-static \
       --with-intl=none \
@@ -86,7 +89,7 @@ else
       --ninja \
       --dest-cpu=arm64 \
       --dest-os=ios \
-      --without-snapshot \
+      $SNAPSHOT_FLAG \
       --openssl-no-asm \
       --enable-static \
       --with-intl=none \
