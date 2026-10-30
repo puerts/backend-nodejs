@@ -71,7 +71,7 @@ fi
 
 export CXXFLAGS_host="$HOST_ARCH_DEF -std=$CXX_STD -arch $HOST_ARCH" 
 export CFLAGS_host="-arch $HOST_ARCH" 
-export LDFLAGS_host="-arch $HOST_ARCH"
+export LDFLAGS_host="-arch $HOST_ARCH -Wl,-framework,CoreFoundation"
 
 GYP_DEFINES="target_arch=arm64"
 GYP_DEFINES+=" v8_target_arch=arm64"
