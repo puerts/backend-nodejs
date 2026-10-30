@@ -1,5 +1,18 @@
+diff --git a/deps/cares/config/darwin/ares_config.h b/deps/cares/config/darwin/ares_config.h
+index 6187024a3a..8e96b26e93 100644
+--- a/deps/cares/config/darwin/ares_config.h
++++ b/deps/cares/config/darwin/ares_config.h
+@@ -329,7 +329,7 @@
+ #define HAVE_SYS_PARAM_H 1
+ 
+ /* Define to 1 if you have the <sys/random.h> header file. */
+-#define HAVE_SYS_RANDOM_H 1
++/* #undef HAVE_SYS_RANDOM_H */
+ 
+ /* Define to 1 if you have the <sys/select.h> header file. */
+ #define HAVE_SYS_SELECT_H 1
 diff --git a/node.gyp b/node.gyp
-index 5334b8a..31a851c 100644
+index 5334b8a746..31a851ca03 100644
 --- a/node.gyp
 +++ b/node.gyp
 @@ -1092,6 +1092,18 @@
@@ -22,7 +35,7 @@ index 5334b8a..31a851c 100644
        'target_name': '<(node_lib_target_name)',
        'type': '<(node_lib_type)',
 diff --git a/node.gypi b/node.gypi
-index 9eb972a..872a2cb 100644
+index 9eb972adc4..872a2cb2bf 100644
 --- a/node.gypi
 +++ b/node.gypi
 @@ -408,7 +408,7 @@
@@ -35,7 +48,7 @@ index 9eb972a..872a2cb 100644
            'conditions': [
              # -force_load or --whole-archive are not applicable for
 diff --git a/tools/gyp/pylib/gyp/generator/ninja.py b/tools/gyp/pylib/gyp/generator/ninja.py
-index 3ceaf47..5cd88d2 100644
+index 3ceaf470ce..5cd88d21e1 100644
 --- a/tools/gyp/pylib/gyp/generator/ninja.py
 +++ b/tools/gyp/pylib/gyp/generator/ninja.py
 @@ -2837,7 +2837,7 @@ def GenerateOutputForConfig(target_list, target_dicts, data, params, config_name
