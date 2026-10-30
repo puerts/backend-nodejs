@@ -6,6 +6,11 @@ on:
       tag_date:
         description: 'tag date'     
         required: true
+      build_macos_x64:
+        description: 'build macOS x64 (cross compile, slow)'
+        type: boolean
+        required: false
+        default: false
 
 env:
   VERSION: 26.13.0
@@ -41,6 +46,27 @@ jobs:
       with:
         name: nodejs_bin_win_x64
         path: puerts-node/**/*
+          
+  build_macos:
+    name: macOS
+    if: ${{ inputs.build_macos_x64 }}
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: npm install
+      shell: bash
+      run: npm install
+    - name: Run build script
+      run: |
+        cd $GITHUB_WORKSPACE
+        sh ./macos.sh ${{env.VERSION}}
+    - name: Rename
+      run: |
+        mv ~/puerts-node/nodejs ~/puerts-node/nodejs_26
+    - uses: actions/upload-artifact@v4
+      with:
+        name: nodejs_bin_mac_x64
+        path: ~/puerts-node/**/*
           
   build_macos_arm64:
     name: macOS with apple m1
@@ -221,13 +247,21 @@ jobs:
         
   publish:
     runs-on: ubuntu-latest
-    needs: [build_windows,build_macos_arm64,build_linux,build_ios,build_android_arm64,build_android_armv7,build_android_arm64_shared,build_android_armv7_shared]
+    needs: [build_windows,build_macos,build_macos_arm64,build_linux,build_ios,build_android_arm64,build_android_armv7,build_android_arm64_shared,build_android_armv7_shared]
+    if: ${{ !failure() && !cancelled() }}
     steps:
       - uses: actions/download-artifact@v4
         with:
           pattern: nodejs_bin_*
           path: nodejs_bin/
           merge-multiple: true
+
+      - name: Skip macOS x64 in puer-build.json
+        if: ${{ !inputs.build_macos_x64 }}
+        run: |
+          f=nodejs_bin/nodejs_26/puer-build.json
+          jq '.skip.osx = ((.skip.osx // {}) + {"x64": true})' "$f" > "$f.tmp" && mv "$f.tmp" "$f"
+          cat "$f"
           
       - name: Create Release Asset
         run: |
