@@ -105,7 +105,11 @@ else
       --cross-compiling
 fi
 
-./ninja -j 8 -w dupbuild=warn -C out/Release
+if [ "$MAJOR_VER" -ge 26 ]; then
+  ./ninja -j 8 -C out/Release
+else
+  ./ninja -j 8 -w dupbuild=warn -C out/Release
+fi
 
 echo "=====[Archive libnode]====="
 #mkdir -p ../puerts-node/nodejs/iosinc/include
