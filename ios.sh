@@ -20,7 +20,7 @@ node $WORKSPACE/node-script/add_arraybuffer_new_without_stl.js deps/v8
 node $WORKSPACE/node-script/make_v8_inspector_export.js
 
 echo "=====[ fetch ninja for mac ]====="
-wget https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-mac.zip
+wget https://github.com/ninja-build/ninja/releases/download/v1.12.1/ninja-mac.zip
 unzip ninja-mac.zip
 
 echo "=====[Building libnode]====="
@@ -51,6 +51,8 @@ if [ "$MAJOR_VER" -ge 26 ]; then
   else
     HOST_ARCH_DEF="-DV8_HOST_ARCH_X64"
   fi
+  export CC_host="$CC_host -arch $HOST_ARCH"
+  export CXX_host="$CXX_host -arch $HOST_ARCH"
 else
   CXX_STD="c++17"
   SNAPSHOT_FLAG="--without-snapshot"
@@ -67,8 +69,9 @@ if [ "$MAJOR_VER" -ge 26 ]; then
   export CXX="$CXX -arch arm64 -isysroot $SDK"
 fi
 
-export CXXFLAGS_host="$HOST_ARCH_DEF -std=$CXX_STD" 
-export CFLAGS_host="" 
+export CXXFLAGS_host="$HOST_ARCH_DEF -std=$CXX_STD -arch $HOST_ARCH" 
+export CFLAGS_host="-arch $HOST_ARCH" 
+export LDFLAGS_host="-arch $HOST_ARCH"
 
 GYP_DEFINES="target_arch=arm64"
 GYP_DEFINES+=" v8_target_arch=arm64"
