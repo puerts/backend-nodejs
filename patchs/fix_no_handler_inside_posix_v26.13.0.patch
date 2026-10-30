@@ -1,5 +1,27 @@
+diff --git a/deps/zlib/zlib.gyp b/deps/zlib/zlib.gyp
+index 12449e7b02..c763efca53 100644
+--- a/deps/zlib/zlib.gyp
++++ b/deps/zlib/zlib.gyp
+@@ -73,7 +73,7 @@
+                   'cflags': [ '-march=armv8-a+aes+crc' ],
+                 }],
+                 ['OS=="android"', {
+-                  'defines': [ 'ARMV8_OS_ANDROID' ],
++                  'defines': [ 'ARMV8_OS_LINUX' ],
+                 }],
+                 ['OS=="linux" or OS=="openharmony"', {
+                   'defines': [ 'ARMV8_OS_LINUX' ],
+@@ -91,7 +91,7 @@
+                 'defines': [ 'CRC32_ARMV8_CRC32' ],
+                 'conditions': [
+                   ['OS=="android"', {
+-                    'defines': [ 'ARMV8_OS_ANDROID' ],
++                    'defines': [ 'ARMV8_OS_LINUX' ],
+                   }],
+                   ['OS=="linux" or OS=="openharmony"', {
+                     'defines': [ 'ARMV8_OS_LINUX' ],
 diff --git a/tools/v8_gypfiles/v8.gyp b/tools/v8_gypfiles/v8.gyp
-index fd8394b..d28a558 100644
+index fd8394b370..d28a5589fc 100644
 --- a/tools/v8_gypfiles/v8.gyp
 +++ b/tools/v8_gypfiles/v8.gyp
 @@ -817,12 +817,12 @@

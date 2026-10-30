@@ -53,7 +53,11 @@ fi
 
 cp $WORKSPACE/android-configure ./
 ./android-configure $NDK_DIR $2 24 $WITH_SSL
-make -j8
+if [ "$MAJOR_VER" -ge 26 ]; then
+  make -C out BUILDTYPE=Release -j8 libnode
+else
+  make -j8
+fi
 
 mkdir -p ../puerts-node/nodejs/lib/Android/$OUTPUT/
 
