@@ -80,17 +80,26 @@ GYP_DEFINES="target_arch=$ARCH"
 GYP_DEFINES+=" v8_target_arch=$ARCH"
 GYP_DEFINES+=" android_target_arch=$ARCH"
 GYP_DEFINES+=" host_os=$HOST_OS OS=android"
+GYP_DEFINES+=" android_ndk_path=$NDK_PATH"
 export GYP_DEFINES
 
+EXTRA_CONFIGURE_FLAGS=""
+SNAPSHOT_FLAG="--without-snapshot"
+if grep -q "v8-disable-temporal-support" configure.py 2>/dev/null; then
+  SNAPSHOT_FLAG="--without-node-snapshot"
+  EXTRA_CONFIGURE_FLAGS="--v8-disable-temporal-support --without-ffi --without-lief --without-sqlite --without-amaro --disable-single-executable-application -Dandroid_ndk_path=$NDK_PATH"
+  export AR=$TOOLCHAIN/bin/llvm-ar
+fi
 
 if [ "$WITH_SSL" == "" ]; then 
    echo "=========================building without-ssl version================================="
   ./configure \
       --dest-cpu=$DEST_CPU \
       --dest-os=android \
-      --without-snapshot \
+      $SNAPSHOT_FLAG \
       --without-ssl \
       --with-intl=none \
+      $EXTRA_CONFIGURE_FLAGS \
       --enable-static \
       --cross-compiling
 else 
@@ -98,9 +107,10 @@ else
   ./configure \
       --dest-cpu=$DEST_CPU \
       --dest-os=android \
-      --without-snapshot \
+      $SNAPSHOT_FLAG \
       --openssl-no-asm \
       --with-intl=none \
+      $EXTRA_CONFIGURE_FLAGS \
       --enable-static \
       --cross-compiling
 fi

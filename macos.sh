@@ -1,3 +1,4 @@
+set -e
 [ -z "$GITHUB_WORKSPACE" ] && GITHUB_WORKSPACE="$( cd "$( dirname "$0" )"/.. && pwd )"
 WORKSPACE=$GITHUB_WORKSPACE
 HOMEPATH=~
@@ -17,7 +18,16 @@ node $WORKSPACE/node-script/make_v8_inspector_export.js
 
 echo "=====[Building Node.js]====="
 
-./configure --shared
+MAJOR_VER=$(echo $VERSION | cut -d. -f1)
+if [ "$MAJOR_VER" -ge 26 ]; then
+  if [ "$(uname -m)" = "arm64" ]; then
+    CC_host="clang -arch arm64" CXX_host="clang++ -arch arm64" CC_target="clang -arch x86_64" CXX_target="clang++ -arch x86_64" CC="clang -arch x86_64" CXX="clang++ -arch x86_64" ./configure --shared --cross-compiling --dest-cpu=x64 --v8-disable-temporal-support --without-ffi
+  else
+    ./configure --shared --v8-disable-temporal-support --without-ffi
+  fi
+else
+  ./configure --shared
+fi
 make -j8
 
 mkdir -p ../puerts-node/nodejs/include

@@ -15,4 +15,11 @@ node %~dp0\node-script\add_arraybuffer_new_without_stl.js deps/v8
 node %~dp0\node-script\make_v8_inspector_export.js
 
 echo =====[ Building Node.js ]=====
-.\vcbuild.bat dll openssl-no-asm
+set MAJOR_VER=%VERSION:~0,2%
+if %MAJOR_VER% GEQ 26 (
+  set config_flags=--v8-disable-temporal-support
+  .\vcbuild.bat dll openssl-no-asm without-ffi
+) else (
+  .\vcbuild.bat dll openssl-no-asm
+)
+

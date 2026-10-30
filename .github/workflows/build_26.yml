@@ -36,11 +36,11 @@ jobs:
     - name: Rename
       shell: bash
       run: |
-        mv ~/puerts-node/nodejs ~/puerts-node/nodejs_26
+        mv puerts-node/nodejs puerts-node/nodejs_26
     - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin_win_x64
-        path: ~/puerts-node/**/*
+        path: puerts-node/**/*
           
   build_macos:
     name: macOS
@@ -141,7 +141,7 @@ jobs:
       - name: Install NDK
         run: |
           cd ~
-          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r27c-linux.zip
+          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r29-linux.zip
           unzip -q NDK
       - name: Build
         run: |
@@ -169,7 +169,7 @@ jobs:
       - name: Install NDK
         run: |
           cd ~
-          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r27c-linux.zip
+          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r29-linux.zip
           unzip -q NDK
       - name: Build
         run: |
@@ -197,7 +197,7 @@ jobs:
       - name: Install NDK
         run: |
           cd ~
-          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r27c-linux.zip
+          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r29-linux.zip
           unzip -q NDK
       - name: Build
         run: |
@@ -225,7 +225,7 @@ jobs:
       - name: Install NDK
         run: |
           cd ~
-          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r27c-linux.zip
+          wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r29-linux.zip
           unzip -q NDK
       - name: Build
         run: |

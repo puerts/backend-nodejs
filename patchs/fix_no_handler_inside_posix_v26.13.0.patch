@@ -1,0 +1,59 @@
+diff --git a/deps/zlib/zlib.gyp b/deps/zlib/zlib.gyp
+index 12449e7b02..c763efca53 100644
+--- a/deps/zlib/zlib.gyp
++++ b/deps/zlib/zlib.gyp
+@@ -73,7 +73,7 @@
+                   'cflags': [ '-march=armv8-a+aes+crc' ],
+                 }],
+                 ['OS=="android"', {
+-                  'defines': [ 'ARMV8_OS_ANDROID' ],
++                  'defines': [ 'ARMV8_OS_LINUX' ],
+                 }],
+                 ['OS=="linux" or OS=="openharmony"', {
+                   'defines': [ 'ARMV8_OS_LINUX' ],
+@@ -91,7 +91,7 @@
+                 'defines': [ 'CRC32_ARMV8_CRC32' ],
+                 'conditions': [
+                   ['OS=="android"', {
+-                    'defines': [ 'ARMV8_OS_ANDROID' ],
++                    'defines': [ 'ARMV8_OS_LINUX' ],
+                   }],
+                   ['OS=="linux" or OS=="openharmony"', {
+                     'defines': [ 'ARMV8_OS_LINUX' ],
+diff --git a/tools/v8_gypfiles/v8.gyp b/tools/v8_gypfiles/v8.gyp
+index fd8394b370..d28a5589fc 100644
+--- a/tools/v8_gypfiles/v8.gyp
++++ b/tools/v8_gypfiles/v8.gyp
+@@ -817,12 +817,12 @@
+               }],
+               ['v8_enable_webassembly==1', {
+                 'conditions': [
+-                  ['((_toolset=="host" and host_arch=="arm64" or _toolset=="target" and target_arch=="arm64") and (OS in "linux mac openharmony")) or ((_toolset=="host" and host_arch=="x64" or _toolset=="target" and target_arch=="x64") and (OS in "linux mac openharmony"))', {
++                  ['((_toolset=="host" and host_arch=="arm64" or _toolset=="target" and target_arch=="arm64") and (OS in "linux mac ios openharmony")) or ((_toolset=="host" and host_arch=="x64" or _toolset=="target" and target_arch=="x64") and (OS in "linux mac openharmony" or host_os in "linux mac openharmony"))', {
+                     'sources': [
+                       '<(V8_ROOT)/src/trap-handler/handler-inside-posix.h',
+                     ],
+                   }],
+-                  ['(_toolset=="host" and host_arch=="x64" or _toolset=="target" and target_arch=="x64") and (OS in "linux mac win openharmony")', {
++                  ['(_toolset=="host" and host_arch=="x64" or _toolset=="target" and target_arch=="x64") and (OS in "linux mac win openharmony" or host_os in "linux mac win openharmony")', {
+                     'sources': [
+                       '<(V8_ROOT)/src/trap-handler/trap-handler-simulator.h',
+                     ],
+@@ -1268,7 +1268,7 @@
+           'conditions': [
+             ['v8_enable_webassembly==1', {
+               'conditions': [
+-                ['((_toolset=="host" and host_arch=="arm64" or _toolset=="target" and target_arch=="arm64") and (OS in "linux mac ios openharmony")) or ((_toolset=="host" and host_arch=="x64" or _toolset=="target" and target_arch=="x64") and (OS in "linux mac openharmony"))', {
++                ['((_toolset=="host" and host_arch=="arm64" or _toolset=="target" and target_arch=="arm64") and (OS in "linux mac ios openharmony")) or ((_toolset=="host" and host_arch=="x64" or _toolset=="target" and target_arch=="x64") and (OS in "linux mac openharmony" or host_os in "linux mac openharmony"))', {
+                   'sources': [
+                     '<(V8_ROOT)/src/trap-handler/handler-inside-posix.cc',
+                     '<(V8_ROOT)/src/trap-handler/handler-outside-posix.cc',
+@@ -1280,7 +1280,7 @@
+                     '<(V8_ROOT)/src/trap-handler/handler-outside-win.cc',
+                   ],
+                 }],
+-                ['(_toolset=="host" and host_arch=="x64" or _toolset=="target" and target_arch=="x64") and (OS in "linux mac win openharmony")', {
++                ['(_toolset=="host" and host_arch=="x64" or _toolset=="target" and target_arch=="x64") and (OS in "linux mac win openharmony" or host_os in "linux mac win openharmony")', {
+                   'sources': [
+                     '<(V8_ROOT)/src/trap-handler/handler-outside-simulator.cc',
+                   ],

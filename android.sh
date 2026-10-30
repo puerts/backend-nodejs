@@ -1,3 +1,4 @@
+set -e
 [ -z "$GITHUB_WORKSPACE" ] && GITHUB_WORKSPACE="$( cd "$( dirname "$0" )"/.. && pwd )"
 WORKSPACE=$GITHUB_WORKSPACE
 HOMEPATH=~
@@ -40,9 +41,23 @@ node $WORKSPACE/node-script/make_v8_inspector_export.js
 
 echo "=====[Building Node.js]====="
 
+MAJOR_VER=$(echo $VERSION | cut -d. -f1)
+if [ "$MAJOR_VER" -ge 26 ]; then
+  if [ -f "android-patches/trap-handler.h.patch" ]; then
+    patch -f ./deps/v8/src/trap-handler/trap-handler.h < ./android-patches/trap-handler.h.patch || true
+  fi
+  NDK_DIR=${NDK_PATH:-~/android-ndk-r29}
+else
+  NDK_DIR=${NDK_PATH:-~/android-ndk-r21b}
+fi
+
 cp $WORKSPACE/android-configure ./
-./android-configure ~/android-ndk-r21b $2 24 $WITH_SSL
-make -j8
+./android-configure $NDK_DIR $2 24 $WITH_SSL
+if [ "$MAJOR_VER" -ge 26 ]; then
+  make -C out BUILDTYPE=Release -j8 libnode
+else
+  make -j8
+fi
 
 mkdir -p ../puerts-node/nodejs/lib/Android/$OUTPUT/
 
