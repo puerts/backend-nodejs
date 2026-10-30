@@ -105,7 +105,9 @@ else
       --cross-compiling
 fi
 
-./ninja -j 8 -w dupbuild=warn -C out/Release
+NINJA_JOBS=$(( $(sysctl -n hw.ncpu) + 1 ))
+echo "ninja jobs: $NINJA_JOBS"
+./ninja -j $NINJA_JOBS -w dupbuild=warn -C out/Release
 
 echo "=====[Archive libnode]====="
 #mkdir -p ../puerts-node/nodejs/iosinc/include
