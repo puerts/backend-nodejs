@@ -20,7 +20,7 @@ node $WORKSPACE/node-script/add_arraybuffer_new_without_stl.js deps/v8
 node $WORKSPACE/node-script/make_v8_inspector_export.js
 
 echo "=====[ fetch ninja for mac ]====="
-wget https://github.com/ninja-build/ninja/releases/download/v1.12.1/ninja-mac.zip
+wget https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-mac.zip
 unzip ninja-mac.zip
 
 echo "=====[Building libnode]====="
@@ -105,11 +105,7 @@ else
       --cross-compiling
 fi
 
-if [ "$MAJOR_VER" -ge 26 ]; then
-  ./ninja -j 8 -C out/Release
-else
-  ./ninja -j 8 -w dupbuild=warn -C out/Release
-fi
+./ninja -j 8 -w dupbuild=warn -C out/Release
 
 echo "=====[Archive libnode]====="
 #mkdir -p ../puerts-node/nodejs/iosinc/include
