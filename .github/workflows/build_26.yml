@@ -36,11 +36,11 @@ jobs:
     - name: Rename
       shell: bash
       run: |
-        mv ~/puerts-node/nodejs ~/puerts-node/nodejs_26
+        mv puerts-node/nodejs puerts-node/nodejs_26
     - uses: actions/upload-artifact@v4
       with:
         name: nodejs_bin_win_x64
-        path: ~/puerts-node/**/*
+        path: puerts-node/**/*
           
   build_macos:
     name: macOS
